@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --primary: 172 66% 24%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 38 92% 50%;
+    --accent-foreground: 26 83% 14%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 172 66% 30%;
+    --success: 142 71% 35%;
+    --success-foreground: 0 0% 100%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 96%;
+    --card: 222 44% 10%;
+    --card-foreground: 210 40% 96%;
+    --primary: 172 66% 45%;
+    --primary-foreground: 222 47% 8%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 96%;
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 38 92% 50%;
+    --accent-foreground: 26 83% 14%;
+    --destructive: 0 63% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 172 66% 45%;
+    --success: 142 60% 45%;
+    --success-foreground: 0 0% 100%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  ::selection {
+    @apply bg-primary/20;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .invoice-sheet {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

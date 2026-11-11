@@ -1,0 +1,51 @@
+{% extends "downloader/base.html" %}
+{% block title %}Download History — K&N{% endblock %}
+{% block content %}
+<style>
+.hist-wrap { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.page-title { font-family:'Orbitron',monospace; font-size:1.8rem; font-weight:900; margin-bottom:0.4rem; }
+.page-sub { color:var(--text-secondary); margin-bottom:2rem; }
+.hist-grid { display:flex; flex-direction:column; gap:0.8rem; }
+.hist-card {
+  display:flex; align-items:center; gap:1.2rem; padding:1rem 1.2rem;
+  background:var(--dark-card); border:1px solid var(--border-glow);
+  border-radius:10px; backdrop-filter:blur(20px); transition:all 0.3s;
+  animation: fadein 0.4s ease both;
+}
+.hist-card:hover { border-color:var(--neon-cyan); box-shadow:0 0 15px rgba(0,245,255,0.1); transform:translateX(4px); }
+.hist-thumb { width:80px; height:45px; object-fit:cover; border-radius:6px; background:rgba(0,245,255,0.05); flex-shrink:0; }
+.hist-title { flex:1; font-weight:600; font-size:0.95rem; line-height:1.4; }
+.hist-meta { font-size:0.78rem; color:var(--text-secondary); margin-top:0.2rem; }
+.badge { padding:0.2rem 0.7rem; border-radius:12px; font-size:0.72rem; font-weight:700; flex-shrink:0; }
+.badge-mp3 { background:rgba(255,0,110,0.15); color:var(--neon-pink); border:1px solid rgba(255,0,110,0.3); }
+.badge-mp4 { background:rgba(0,255,136,0.1); color:var(--neon-green); border:1px solid rgba(0,255,136,0.3); }
+.empty-state { text-align:center; padding:4rem 2rem; color:var(--text-secondary); }
+.empty-icon { font-size:4rem; margin-bottom:1rem; opacity:0.4; }
+@keyframes fadein { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+</style>
+<div class="hist-wrap">
+  <div class="page-title gradient-text">Download History</div>
+  <div class="page-sub">All your past downloads in one place</div>
+  {% if downloads %}
+  <div class="hist-grid">
+    {% for d in downloads %}
+    <div class="hist-card" style="animation-delay:{{ forloop.counter0 }}00ms">
+      {% if d.thumbnail %}<img class="hist-thumb" src="{{ d.thumbnail }}" alt="">{% else %}<div class="hist-thumb"></div>{% endif %}
+      <div style="flex:1">
+        <div class="hist-title">{{ d.title|truncatechars:70|default:d.url|truncatechars:70 }}</div>
+        <div class="hist-meta">{{ d.platform|default:"Unknown" }} &bull; {{ d.duration|default:"" }} &bull; {{ d.downloaded_at|date:"M d, Y H:i" }}</div>
+      </div>
+      <span class="badge badge-{{ d.format }}">{{ d.format|upper }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card empty-state">
+    <div class="empty-icon">&#128190;</div>
+    <div style="font-family:'Orbitron',monospace;font-size:1rem;margin-bottom:0.5rem">No downloads yet</div>
+    <p>Start downloading by pasting a video URL on the home page.</p>
+    <a href="/" class="btn btn-primary" style="margin-top:1.5rem">Go Download Something</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

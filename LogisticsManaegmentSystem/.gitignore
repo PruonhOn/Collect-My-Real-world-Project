@@ -1,0 +1,54 @@
+# ---------------------------------------------------------------------------
+# Logistics ERP - root ignore rules
+# ---------------------------------------------------------------------------
+
+# Dependencies
+/node_modules
+/vendor
+
+# Environment files (never commit secrets)
+/.env
+.env.*
+!.env.example
+
+# Laravel runtime
+/backend/storage/*.key
+/backend/storage/app/private
+/backend/storage/app/public
+/backend/storage/framework/cache/data/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+/backend/storage/logs/*
+!/backend/storage/framework/cache/data/.gitignore
+!/backend/storage/framework/sessions/.gitignore
+!/backend/storage/framework/views/.gitignore
+!/backend/storage/logs/.gitignore
+
+# Local database artefacts
+*.sqlite
+*.sqlite-journal
+/backend/database/*.sqlite
+
+# Frontend build output
+/frontend/dist
+/frontend/.vite
+/frontend/coverage
+
+# Test + tooling output
+/coverage
+.phpunit.result.cache
+.php-cs-fixer.cache
+.pint.cache
+npm-debug.log*
+yarn-error.log*
+
+# Vercel CLI / local project metadata
+.vercel/
+
+# Editor / OS
+.idea
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+desktop.ini

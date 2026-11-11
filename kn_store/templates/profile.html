@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Profile — K&N Store{% endblock %}
+{% block page_title %}Profile{% endblock %}
+{% block breadcrumb %}K&N Store / Profile{% endblock %}
+{% block content %}
+<div style="max-width:680px">
+  <div class="card" style="margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:24px;margin-bottom:28px">
+      <div style="position:relative">
+        <img id="profilePreview"
+          src="{{ url_for('static', filename='uploads/' + (current_user.profile_image or 'default.png')) }}"
+          onerror="this.src='https://ui-avatars.com/api/?name={{ current_user.username }}&background=7c3aed&color=fff&size=128'"
+          style="width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);box-shadow:0 4px 16px rgba(124,58,237,0.25)">
+        <label for="imgInput" style="position:absolute;bottom:0;right:0;width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.2)">📷</label>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800">{{ current_user.full_name or current_user.username }}</div>
+        <div style="color:var(--text2);font-size:14px">@{{ current_user.username }} · {{ current_user.role }}</div>
+        <div style="color:var(--text2);font-size:13px;margin-top:4px">Member since {{ current_user.created_at.strftime('%B %Y') }}</div>
+        <div style="margin-top:8px">
+          <span class="badge badge-purple">🎖️ {{ current_user.role|title }}</span>
+        </div>
+      </div>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" id="imgInput" name="profile_image" accept="image/*" style="display:none" onchange="previewImg(this)">
+      
+      <div class="grid-2">
+        <div class="form-group"><label>Full Name</label>
+          <input name="full_name" value="{{ current_user.full_name }}" placeholder="John Administrator">
+        </div>
+        <div class="form-group"><label>Username</label>
+          <input value="{{ current_user.username }}" disabled style="opacity:0.5;cursor:not-allowed">
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group"><label>Email</label>
+          <input name="email" type="email" value="{{ current_user.email }}">
+        </div>
+        <div class="form-group"><label>Phone</label>
+          <input name="phone" value="{{ current_user.phone }}" placeholder="+1 (555) 000-0000">
+        </div>
+      </div>
+
+      <hr style="border:none;border-top:1px solid var(--border);margin:24px 0">
+      <h3 style="font-family:'Syne',sans-serif;font-size:15px;margin-bottom:16px">🔐 Change Password</h3>
+      <div class="grid-2">
+        <div class="form-group"><label>Current Password</label>
+          <input type="password" name="current_password" placeholder="••••••••">
+        </div>
+        <div class="form-group"><label>New Password</label>
+          <input type="password" name="new_password" placeholder="••••••••">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;padding:13px">💾 Save Profile</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3 style="font-family:'Syne',sans-serif;margin-bottom:16px">🎨 Appearance</h3>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;background:var(--bg3);border-radius:12px;border:1px solid var(--border)">
+      <div>
+        <div style="font-weight:600">Theme Mode</div>
+        <div style="font-size:13px;color:var(--text2)">Currently: <strong>{{ theme|title }} Mode</strong></div>
+      </div>
+      <button onclick="toggleTheme()" class="btn {{ 'btn-primary' if theme == 'light' else 'btn-ghost' }}" style="gap:8px">
+        {{ '🌙 Switch to Dark' if theme == 'light' else '☀️ Switch to Light' }}
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+function previewImg(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => { document.getElementById('profilePreview').src = e.target.result; }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+</script>
+{% endblock %}

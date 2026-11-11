@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    {% include 'accounts/Head.html' %}
+</head>
+
+<body>
+    <div class="container">
+        <!-- Banner -->
+        {% include 'accounts/Banner.html' %}
+        <!-- End Banner -->
+         <!-- Menu -->
+        {% include 'accounts/Menu.html' %}
+        <!-- End Menu -->
+         <!-- SlideShow -->
+        {% include 'accounts/SlideShow.html' %}
+        <!-- End SlideShow -->
+        <div class="row">
+            <!-- Side Bar Left -->
+            {% include 'accounts/SideBarLeft.html' %}
+            <!-- End Side Bar Left -->
+            <div class="col-lg-8 ">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam quos rerum deserunt, aliquid adipisci tenetur cumque eius error magni atque sunt. Rerum in optio hic magnam, unde nesciunt non fugiat.
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam, illum rerum, nihil inventore dolorum asperiores laborum voluptas cum et in nisi magnam esse itaque aut consectetur voluptates mollitia quos! Officia.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto ipsam in dolorem aut fuga quos harum possimus, excepturi amet facere minima nulla a nisi vero nemo asperiores inventore aspernatur soluta!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti quas necessitatibus repudiandae magni eos sit eum, incidunt possimus dolores cum cumque placeat consequuntur? Exercitationem, similique esse quia aspernatur vero consectetur.
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab eos aperiam sint unde sit magnam obcaecati cumque molestias nostrum ad. Quae distinctio molestiae cupiditate debitis, minima sunt perferendis recusandae itaque!
+            </div>
+            <!-- Side Bar Right -->
+            {% include 'accounts/SideBarRight.html' %}
+            <!-- End Side Bar Right -->
+        </div>
+        <!-- Footer -->
+        {% include 'accounts/Footer.html' %}
+        <!-- End Footer -->
+    </div>
+</body>
+
+</html>

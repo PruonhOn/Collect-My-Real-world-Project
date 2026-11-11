@@ -1,0 +1,70 @@
+# syntax=docker/dockerfile:1
+
+FROM dunglas/frankenphp:1-php8.4-bookworm AS base
+
+RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && install-php-extensions \
+        bcmath \
+        exif \
+        gd \
+        intl \
+        opcache \
+        pcntl \
+        pdo_mysql \
+        zip \
+    && printf '%s\n' \
+        'upload_max_filesize = 4M' \
+        'post_max_size = 5M' \
+        > "$PHP_INI_DIR/conf.d/zz-vercel.ini"
+
+WORKDIR /app
+
+FROM base AS dependencies
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+COPY composer.json composer.lock ./
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --no-progress \
+    --no-scripts \
+    --optimize-autoloader \
+    --prefer-dist
+
+COPY . .
+
+RUN mkdir -p \
+        storage/app/private \
+        storage/app/public \
+        storage/framework/cache \
+        storage/framework/sessions \
+        storage/framework/views \
+        bootstrap/cache \
+    && composer dump-autoload --no-dev --classmap-authoritative
+
+FROM base AS runtime
+
+COPY --from=dependencies --chown=www-data:www-data /app /app
+
+COPY --chown=www-data:www-data Caddyfile /etc/frankenphp/Caddyfile
+
+RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp \
+    && chown -R www-data:www-data /config/caddy /data/caddy
+
+ENV PORT=80 \
+    APP_ENV=production \
+    APP_DEBUG=false \
+    LOG_CHANNEL=stderr \
+    VIEW_COMPILED_PATH=/tmp/views \
+    XDG_CONFIG_HOME=/tmp/caddy/config \
+    XDG_DATA_HOME=/tmp/caddy/data \
+    CACHE_STORE=database \
+    SESSION_DRIVER=database \
+    QUEUE_CONNECTION=sync
+
+USER www-data
+
+EXPOSE 80
+
+CMD ["sh", "-c", "mkdir -p /tmp/views /tmp/caddy/config /tmp/caddy/data && exec frankenphp run --config /etc/frankenphp/Caddyfile"]

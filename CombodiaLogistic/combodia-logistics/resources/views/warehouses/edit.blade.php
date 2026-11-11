@@ -1,0 +1,138 @@
+@extends('layouts.admin')
+
+@section('title', 'Edit Warehouse')
+@section('subtitle', 'Update warehouse information')
+
+@section('content')
+<x-breadcrumb :items="[['label' => 'Warehouses', 'url' => route('admin.warehouses.index')], ['label' => 'Edit Warehouse']]" />
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold">Edit Warehouse</h4>
+        <p class="text-muted mb-0">Update details for {{ $warehouse->name }}</p>
+    </div>
+    <a href="{{ route('admin.warehouses.index') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i> Back to List
+    </a>
+</div>
+
+<form action="{{ route('admin.warehouses.update', $warehouse->id) }}" method="POST">
+    @csrf
+    @method('PUT')
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white border-bottom">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-warehouse me-2"></i>Warehouse Information</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="code" class="form-label">Warehouse Code <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('code') is-invalid @enderror" id="code" name="code" value="{{ old('code', $warehouse->code) }}" required>
+                            @error('code')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Warehouse Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $warehouse->name) }}" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="branch_id" class="form-label">Branch <span class="text-danger">*</span></label>
+                            <select class="form-select @error('branch_id') is-invalid @enderror" id="branch_id" name="branch_id" required>
+                                <option value="">Select Branch</option>
+                                @foreach($branches as $branch)
+                                    <option value="{{ $branch->id }}" {{ old('branch_id', $warehouse->branch_id) == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('branch_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="capacity" class="form-label">Capacity (sqm) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('capacity') is-invalid @enderror" id="capacity" name="capacity" value="{{ old('capacity', $warehouse->capacity) }}" min="0" required>
+                            @error('capacity')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-12">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="2">{{ old('address', $warehouse->address) }}</textarea>
+                            @error('address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control @error('city') is-invalid @enderror" id="city" name="city" value="{{ old('city', $warehouse->city) }}">
+                            @error('city')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white border-bottom">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-person me-2"></i>Manager Information</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="manager_name" class="form-label">Manager Name</label>
+                            <input type="text" class="form-control @error('manager_name') is-invalid @enderror" id="manager_name" name="manager_name" value="{{ old('manager_name', $warehouse->manager_name) }}">
+                            @error('manager_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="manager_phone" class="form-label">Manager Phone</label>
+                            <input type="text" class="form-control @error('manager_phone') is-invalid @enderror" id="manager_phone" name="manager_phone" value="{{ old('manager_phone', $warehouse->manager_phone) }}">
+                            @error('manager_phone')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="manager_email" class="form-label">Manager Email</label>
+                            <input type="email" class="form-control @error('manager_email') is-invalid @enderror" id="manager_email" name="manager_email" value="{{ old('manager_email', $warehouse->manager_email) }}">
+                            @error('manager_email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white border-bottom">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-gear me-2"></i>Status</h6>
+                </div>
+                <div class="card-body">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', $warehouse->is_active ?? true) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_active">Active</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i> Update Warehouse
+                </button>
+                <a href="{{ route('admin.warehouses.index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-lg me-1"></i> Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+@endsection

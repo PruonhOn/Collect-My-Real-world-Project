@@ -1,0 +1,328 @@
+{% load static %}
+{% include 'Pinky-Caffee/include/Head.html' %}
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    {% include 'Pinky-Caffee/include/Header.html' %}
+    <!-- Header Section End -->
+
+    <!-- Hero Section Begin -->
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar -->
+                {% include 'Pinky-Caffee/include/Sidebar.html' %}
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="{% url 'index' %}" method="GET">
+                                <div class="hero__search__categories">
+                                    All Categories
+                                    <span class="arrow_carrot-down"></span>
+                                </div>
+                                <input type="text" name="search" placeholder="What coffee do you need?">
+                                <button type="submit" class="site-btn">SEARCH</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>+855 12 345 678</h5>
+                                <span>Support 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/2-breadcrumb.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Order Bill</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'index' %}">Home</a>
+                            <span>Bill #{{ order.order_number }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Bill Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <!-- Bill Header -->
+                    <div class="bill-header text-center mb-4">
+                        <div class="bill-logo mb-3">
+                            <img src="{% static 'img/logo-pinky-coffee.png' %}" alt="Pinky Coffee" style="max-width: 150px;">
+                        </div>
+                        <h2 class="bill-title">PINKY COFFEE</h2>
+                        <p class="bill-address mb-2">123 Coffee Street, Phnom Penh, Cambodia</p>
+                        <p class="bill-contact">Phone: +855 12 345 678 | Email: pinkycoffee@gmail.com</p>
+                        <hr class="bill-divider">
+                    </div>
+
+                    <!-- Bill Details -->
+                    <div class="bill-details">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5>Bill To:</h5>
+                                <div class="bill-customer-info">
+                                    <p class="mb-1"><strong>{{ order.get_full_name }}</strong></p>
+                                    <p class="mb-1">{{ order.street_address }}</p>
+                                    {% if order.apartment %}
+                                    <p class="mb-1">{{ order.apartment }}</p>
+                                    {% endif %}
+                                    <p class="mb-1">{{ order.city }}, {{ order.state }} {{ order.postcode }}</p>
+                                    <p class="mb-1">{{ order.country }}</p>
+                                    <p class="mb-1">{{ order.phone }}</p>
+                                    <p class="mb-0">{{ order.email }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <h5>Bill Details:</h5>
+                                <div class="bill-info">
+                                    <p class="mb-1"><strong>Bill #:</strong> {{ order.order_number }}</p>
+                                    <p class="mb-1"><strong>Date:</strong> {{ order.created_at|date:"M d, Y" }}</p>
+                                    <p class="mb-1"><strong>Time:</strong> {{ order.created_at|date:"g:i A" }}</p>
+                                    <p class="mb-1"><strong>Payment:</strong>
+                                        {% if order.payment_method == 'cash_on_delivery' %}
+                                            Cash on Delivery
+                                        {% elif order.payment_method == 'bank_transfer' %}
+                                            Bank Transfer
+                                        {% elif order.payment_method == 'credit_card' %}
+                                            Credit Card
+                                        {% elif order.payment_method == 'aba_pay' %}
+                                            ABA Pay
+                                        {% else %}
+                                            {{ order.payment_method|title }}
+                                        {% endif %}
+                                    </p>
+                                    <p class="mb-0"><strong>Status:</strong>
+                                        <span class="badge badge-success">{{ order.order_status|title }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Items Table -->
+                        <div class="bill-items mb-4">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Description</th>
+                                        <th class="text-center">Qty</th>
+                                        <th class="text-center">Unit Price</th>
+                                        <th class="text-center">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in order_items %}
+                                    <tr>
+                                        <td>
+                                            <div class="item-description">
+                                                <strong>{{ item.product.productName }}</strong>
+                                                {% if item.product.categoryID %}
+                                                <br><small class="text-muted">{{ item.product.categoryID.categoryName }}</small>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td class="text-center">{{ item.quantity }}</td>
+                                        <td class="text-center">${{ item.price }}</td>
+                                        <td class="text-center"><strong>${{ item.get_subtotal }}</strong></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Bill Totals -->
+                        <div class="bill-totals">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    {% if order.order_notes %}
+                                    <div class="order-notes">
+                                        <h6>Order Notes:</h6>
+                                        <p class="text-muted">{{ order.order_notes }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="totals-table">
+                                        <table class="table table-sm">
+                                            <tr>
+                                                <td><strong>Subtotal:</strong></td>
+                                                <td class="text-right">${{ order.subtotal }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Shipping:</strong></td>
+                                                <td class="text-right">${{ order.shipping_cost }}</td>
+                                            </tr>
+                                            {% if order.discount > 0 %}
+                                            <tr>
+                                                <td><strong>Discount:</strong></td>
+                                                <td class="text-right text-success">-${{ order.discount }}</td>
+                                            </tr>
+                                            {% endif %}
+                                            <tr class="total-row">
+                                                <td><strong>TOTAL:</strong></td>
+                                                <td class="text-right"><strong>${{ order.total }}</strong></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thank You Message -->
+                        <div class="thank-you text-center mt-4">
+                            <hr>
+                            <h4 class="text-success mb-3">Thank You for Your Order!</h4>
+                            <p class="mb-2">Your order has been successfully placed and will be processed shortly.</p>
+                            <p class="text-muted">For any questions, please contact us at +855 12 345 678</p>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="bill-actions text-center mt-4">
+                        <button onclick="window.print()" class="btn btn-primary mr-2">
+                            <i class="fa fa-print mr-1"></i> Print Bill
+                        </button>
+                        <a href="{% url 'index' %}" class="btn btn-secondary">
+                            <i class="fa fa-shopping-bag mr-1"></i> Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Bill Section End -->
+
+    <!-- Footer Section Begin -->
+    {% include 'Pinky-Caffee/include/Footer.html' %}
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    {% include 'Pinky-Caffee/include/Scriq-js.html' %}
+    <!-- Bill Styles -->
+    <style>
+        .bill-header {
+            border: 2px solid #7fad39;
+            border-radius: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .bill-title {
+            color: #7fad39;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .bill-address, .bill-contact {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .bill-divider {
+            border-top: 2px solid #7fad39;
+            margin: 15px 0;
+        }
+
+        .bill-customer-info, .bill-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #7fad39;
+        }
+
+        .bill-items .table {
+            margin-bottom: 0;
+        }
+
+        .bill-items .table th {
+            background: #7fad39;
+            color: white;
+            border: none;
+        }
+
+        .item-description {
+            line-height: 1.4;
+        }
+
+        .totals-table {
+            background: #f8f9fa;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .totals-table .table {
+            margin-bottom: 0;
+        }
+
+        .total-row {
+            background: #7fad39;
+            color: white;
+        }
+
+        .total-row td {
+            border-top: 2px solid #6a9a2e;
+            font-size: 18px;
+        }
+
+        .thank-you {
+            background: #f0f8f0;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #d4edda;
+        }
+
+        .bill-actions .btn {
+            padding: 10px 20px;
+            font-weight: 600;
+        }
+
+        @media print {
+            .header, .footer, .breadcrumb-section, .hero, .bill-actions {
+                display: none !important;
+            }
+
+            .bill-header {
+                background: white !important;
+                border: 2px solid black !important;
+            }
+
+            body {
+                background: white !important;
+            }
+
+            .thank-you {
+                background: white !important;
+                border: 1px solid #ccc !important;
+            }
+        }
+    </style>
+</body>
+
+</html>
+
+
+
+

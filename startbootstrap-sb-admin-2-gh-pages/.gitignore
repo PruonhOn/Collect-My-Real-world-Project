@@ -1,0 +1,6 @@
+node_modules
+.venv/
+config/db.sqlite3
+config/**/__pycache__/
+config/staticfiles/
+*.pyc

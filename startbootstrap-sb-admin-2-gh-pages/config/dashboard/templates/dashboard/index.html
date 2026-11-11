@@ -1,0 +1,79 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <p class="mb-0 text-gray-600">SB Admin 2 layout running inside Django.</p>
+    </div>
+    <span class="badge badge-primary px-3 py-2 shadow-sm">Logged in as {{ request.user.username }}</span>
+</div>
+
+<div class="row">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Users</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">120</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Inventory Items</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">842</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Orders Today</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">36</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Low Stock Alerts</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">7</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Lab 1.2 Complete</h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-3">This page extends a reusable Django base template and loads SB Admin 2 assets from Django static files.</p>
+                <ul class="mb-0">
+                    <li>Sidebar, topbar, and footer are reusable partial templates.</li>
+                    <li>The dashboard route is protected with Django authentication.</li>
+                    <li>Unauthenticated users are redirected to the SB Admin 2 login page.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Quick Status</h6>
+            </div>
+            <div class="card-body">
+                <div class="small text-gray-600 mb-2">Current user</div>
+                <div class="font-weight-bold text-gray-800 mb-3">{{ request.user.username }}</div>
+                <div class="small text-gray-600 mb-2">Authentication</div>
+                <div class="font-weight-bold text-success">Active session</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Categories — K&N Store{% endblock %}
+{% block page_title %}Categories{% endblock %}
+{% block breadcrumb %}K&N Store / Categories{% endblock %}
+{% block content %}
+<div style="display:flex;justify-content:flex-end;margin-bottom:24px">
+  <button class="btn btn-primary" onclick="openModal('addCat')">+ Add Category</button>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px">
+{% for c in categories %}
+<div class="card" style="padding:20px;border-left:4px solid {{ c.color }}">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+    <div style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;background:{{ c.color }}20">{{ c.icon }}</div>
+    <div>
+      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px">{{ c.name }}</div>
+      <div style="font-size:12px;color:var(--text2)">{{ c.products|length }} products</div>
+    </div>
+  </div>
+  {% if c.description %}<p style="font-size:13px;color:var(--text2);margin-bottom:14px">{{ c.description }}</p>{% endif %}
+  <div style="display:flex;gap:8px">
+    <button class="btn btn-outline btn-sm" onclick="editCat({{ c.id }},'{{ c.name }}','{{ c.description }}','{{ c.color }}','{{ c.icon }}')">✏️ Edit</button>
+    <form method="POST" action="{{ url_for('delete_category', id=c.id) }}" onsubmit="return confirm('Delete this category?')">
+      <button class="btn btn-sm" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2)">🗑️ Delete</button>
+    </form>
+  </div>
+</div>
+{% endfor %}
+</div>
+
+<!-- Add Modal -->
+<div class="modal-overlay" id="addCat">
+  <div class="modal">
+    <div class="modal-header"><h3>➕ Add Category</h3><button class="modal-close" onclick="closeModal('addCat')">×</button></div>
+    <form method="POST" action="{{ url_for('add_category') }}">
+      <div class="form-group"><label>Name *</label><input name="name" required placeholder="Auto Parts"></div>
+      <div class="form-group"><label>Description</label><input name="description" placeholder="Category description..."></div>
+      <div class="grid-2">
+        <div class="form-group"><label>Color</label><input name="color" type="color" value="#4f46e5" style="height:44px;cursor:pointer"></div>
+        <div class="form-group"><label>Icon (emoji)</label><input name="icon" value="📦" placeholder="📦"></div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">Add Category</button>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editCat">
+  <div class="modal">
+    <div class="modal-header"><h3>✏️ Edit Category</h3><button class="modal-close" onclick="closeModal('editCat')">×</button></div>
+    <form method="POST" id="editCatForm">
+      <div class="form-group"><label>Name *</label><input name="name" id="ec_name" required></div>
+      <div class="form-group"><label>Description</label><input name="description" id="ec_desc"></div>
+      <div class="grid-2">
+        <div class="form-group"><label>Color</label><input name="color" id="ec_color" type="color" style="height:44px;cursor:pointer"></div>
+        <div class="form-group"><label>Icon</label><input name="icon" id="ec_icon"></div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">Save Changes</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+function editCat(id, name, desc, color, icon) {
+  document.getElementById('editCatForm').action = '/categories/edit/' + id;
+  document.getElementById('ec_name').value = name;
+  document.getElementById('ec_desc').value = desc;
+  document.getElementById('ec_color').value = color;
+  document.getElementById('ec_icon').value = icon;
+  openModal('editCat');
+}
+</script>
+{% endblock %}

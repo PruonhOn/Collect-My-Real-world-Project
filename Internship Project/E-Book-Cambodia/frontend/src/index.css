@@ -1,0 +1,819 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+  --color-gold-50: #fdf7ec;
+  --color-gold-100: #fcf6ba;
+  --color-gold-200: #fae6ad;
+  --color-gold-300: #f5d27f;
+  --color-gold-400: #eabd5d;
+  --color-gold-500: #bf953f;
+  --color-gold-600: #b38728;
+  --color-gold-700: #8d6b20;
+  --color-gold-800: #75551a;
+  --color-gold-900: #5e4414;
+  --color-gold-950: #3c2b0a;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background-color: #0b0f18;
+}
+
+.dark {
+  --color-gray-50: #0b0f18;
+  --color-gray-100: #141a28;
+  --color-gray-200: #1f2738;
+  --color-gray-300: #2c3650;
+  --color-gray-400: #65718a;
+  --color-gray-500: #8490a6;
+  --color-gray-600: #a6b0c2;
+  --color-gray-700: #c4cbd9;
+  --color-gray-800: #dde2ea;
+  --color-gray-900: #f1f3f7;
+  --color-gray-950: #f7f8fb;
+}
+
+.dark .text-gray-50 {
+  color: #f9fafb;
+}
+
+.dark .text-gray-100 {
+  color: #f3f4f6;
+}
+
+.dark .text-gray-200,
+.dark .text-gray-300 {
+  color: #e5e7eb;
+}
+
+.dark .bg-gray-800 {
+  background-color: #1f2937;
+}
+
+.dark .bg-gray-900 {
+  background-color: #111827;
+}
+
+.dark .bg-gray-950 {
+  background-color: #030712;
+}
+
+.dark .bg-white,
+.dark .hover\:bg-white:hover {
+  background-color: #1b2336;
+}
+
+.dark .bg-white\/95,
+.dark .bg-white\/90,
+.dark .bg-white\/85,
+.dark .bg-white\/80,
+.dark .bg-white\/75,
+.dark .bg-white\/70,
+.dark .bg-white\/60,
+.dark .bg-white\/50,
+.dark .bg-white\/40,
+.dark .bg-white\/30,
+.dark .bg-white\/20,
+.dark .bg-white\/10 {
+  background-color: color-mix(in srgb, #1b2336 75%, transparent);
+}
+
+.dark .ring-white {
+  --tw-ring-color: #1b2336;
+}
+
+.dark .from-white {
+  --tw-gradient-from: #1b2336;
+}
+
+.dark .to-white {
+  --tw-gradient-to: #1b2336;
+}
+
+.dark .via-white {
+  --tw-gradient-via: #1b2336;
+}
+
+.dark {
+  --tint-indigo: #6366f1;
+  --tint-indigo-mid: #818cf8;
+  --tint-indigo-lt: #a5b4fc;
+  --tint-emerald: #10b981;
+  --tint-emerald-mid: #34d399;
+  --tint-emerald-lt: #6ee7b7;
+  --tint-green: #22c55e;
+  --tint-green-mid: #4ade80;
+  --tint-green-lt: #86efac;
+  --tint-teal: #14b8a6;
+  --tint-teal-mid: #2dd4bf;
+  --tint-teal-lt: #5eead4;
+  --tint-sky: #0ea5e9;
+  --tint-sky-mid: #38bdf8;
+  --tint-sky-lt: #7dd3fc;
+  --tint-blue: #3b82f6;
+  --tint-blue-mid: #60a5fa;
+  --tint-blue-lt: #93c5fd;
+  --tint-violet: #8b5cf6;
+  --tint-violet-mid: #a78bfa;
+  --tint-violet-lt: #c4b5fd;
+  --tint-purple: #a855f7;
+  --tint-purple-mid: #c084fc;
+  --tint-purple-lt: #d8b4fe;
+  --tint-fuchsia: #d946ef;
+  --tint-fuchsia-mid: #e879f9;
+  --tint-fuchsia-lt: #f0abfc;
+  --tint-rose: #f43f5e;
+  --tint-rose-mid: #fb7185;
+  --tint-rose-lt: #fda4af;
+  --tint-red: #ef4444;
+  --tint-red-mid: #f87171;
+  --tint-red-lt: #fca5a5;
+  --tint-amber: #f59e0b;
+  --tint-amber-mid: #fbbf24;
+  --tint-amber-lt: #fcd34d;
+  --tint-yellow: #eab308;
+  --tint-yellow-mid: #facc15;
+  --tint-yellow-lt: #fde047;
+  --tint-orange: #f97316;
+  --tint-orange-mid: #fb923c;
+  --tint-orange-lt: #fdba74;
+  --tint-pink: #ec4899;
+  --tint-pink-mid: #f472b6;
+  --tint-pink-lt: #f9a8d4;
+  --tint-cyan: #06b6d4;
+  --tint-cyan-mid: #22d3ee;
+  --tint-cyan-lt: #67e8f9;
+  --tint-lime: #84cc16;
+  --tint-lime-mid: #a3e635;
+  --tint-lime-lt: #bef264;
+}
+
+.dark .bg-indigo-50,
+.dark .hover\:bg-indigo-50:hover {
+  background-color: color-mix(in srgb, var(--tint-indigo) 15%, transparent);
+}
+.dark .bg-indigo-100,
+.dark .hover\:bg-indigo-100:hover {
+  background-color: color-mix(in srgb, var(--tint-indigo) 28%, transparent);
+}
+.dark .text-indigo-600 {
+  color: var(--tint-indigo-mid);
+}
+.dark .text-indigo-700,
+.dark .text-indigo-800 {
+  color: var(--tint-indigo-lt);
+}
+.dark .border-indigo-200 {
+  border-color: color-mix(in srgb, var(--tint-indigo) 45%, transparent);
+}
+.dark .border-indigo-300 {
+  border-color: color-mix(in srgb, var(--tint-indigo) 60%, transparent);
+}
+.dark .bg-indigo-50\/80 {
+  background-color: color-mix(in srgb, var(--tint-indigo) 22%, transparent);
+}
+.dark .bg-indigo-50\/70 {
+  background-color: color-mix(in srgb, var(--tint-indigo) 19%, transparent);
+}
+.dark .bg-indigo-50\/60 {
+  background-color: color-mix(in srgb, var(--tint-indigo) 16%, transparent);
+}
+.dark .bg-indigo-50\/50 {
+  background-color: color-mix(in srgb, var(--tint-indigo) 14%, transparent);
+}
+.dark .bg-indigo-50\/40 {
+  background-color: color-mix(in srgb, var(--tint-indigo) 12%, transparent);
+}
+.dark .bg-indigo-50\/30 {
+  background-color: color-mix(in srgb, var(--tint-indigo) 10%, transparent);
+}
+.dark .bg-indigo-50\/20 {
+  background-color: color-mix(in srgb, var(--tint-indigo) 8%, transparent);
+}
+.dark .bg-indigo-50\/10 {
+  background-color: color-mix(in srgb, var(--tint-indigo) 6%, transparent);
+}
+
+.dark .bg-emerald-50,
+.dark .hover\:bg-emerald-50:hover {
+  background-color: color-mix(in srgb, var(--tint-emerald) 15%, transparent);
+}
+.dark .bg-emerald-100,
+.dark .hover\:bg-emerald-100:hover {
+  background-color: color-mix(in srgb, var(--tint-emerald) 28%, transparent);
+}
+.dark .text-emerald-600 {
+  color: var(--tint-emerald-mid);
+}
+.dark .text-emerald-700,
+.dark .text-emerald-800 {
+  color: var(--tint-emerald-lt);
+}
+.dark .border-emerald-200 {
+  border-color: color-mix(in srgb, var(--tint-emerald) 45%, transparent);
+}
+.dark .border-emerald-300 {
+  border-color: color-mix(in srgb, var(--tint-emerald) 60%, transparent);
+}
+.dark .bg-emerald-50\/80 {
+  background-color: color-mix(in srgb, var(--tint-emerald) 22%, transparent);
+}
+.dark .bg-emerald-50\/60 {
+  background-color: color-mix(in srgb, var(--tint-emerald) 16%, transparent);
+}
+
+.dark .bg-green-50,
+.dark .hover\:bg-green-50:hover {
+  background-color: color-mix(in srgb, var(--tint-green) 15%, transparent);
+}
+.dark .bg-green-100,
+.dark .hover\:bg-green-100:hover {
+  background-color: color-mix(in srgb, var(--tint-green) 28%, transparent);
+}
+.dark .text-green-600 {
+  color: var(--tint-green-mid);
+}
+.dark .text-green-700,
+.dark .text-green-800 {
+  color: var(--tint-green-lt);
+}
+
+.dark .bg-teal-50,
+.dark .hover\:bg-teal-50:hover {
+  background-color: color-mix(in srgb, var(--tint-teal) 15%, transparent);
+}
+.dark .bg-teal-100,
+.dark .hover\:bg-teal-100:hover {
+  background-color: color-mix(in srgb, var(--tint-teal) 28%, transparent);
+}
+.dark .text-teal-600 {
+  color: var(--tint-teal-mid);
+}
+.dark .text-teal-700,
+.dark .text-teal-800 {
+  color: var(--tint-teal-lt);
+}
+
+.dark .bg-sky-50,
+.dark .hover\:bg-sky-50:hover {
+  background-color: color-mix(in srgb, var(--tint-sky) 15%, transparent);
+}
+.dark .bg-sky-100,
+.dark .hover\:bg-sky-100:hover {
+  background-color: color-mix(in srgb, var(--tint-sky) 28%, transparent);
+}
+.dark .text-sky-600 {
+  color: var(--tint-sky-mid);
+}
+.dark .text-sky-700,
+.dark .text-sky-800 {
+  color: var(--tint-sky-lt);
+}
+
+.dark .bg-blue-50,
+.dark .hover\:bg-blue-50:hover {
+  background-color: color-mix(in srgb, var(--tint-blue) 15%, transparent);
+}
+.dark .bg-blue-100,
+.dark .hover\:bg-blue-100:hover {
+  background-color: color-mix(in srgb, var(--tint-blue) 28%, transparent);
+}
+.dark .text-blue-600 {
+  color: var(--tint-blue-mid);
+}
+.dark .text-blue-700,
+.dark .text-blue-800 {
+  color: var(--tint-blue-lt);
+}
+
+.dark .bg-violet-50,
+.dark .hover\:bg-violet-50:hover {
+  background-color: color-mix(in srgb, var(--tint-violet) 15%, transparent);
+}
+.dark .bg-violet-100,
+.dark .hover\:bg-violet-100:hover {
+  background-color: color-mix(in srgb, var(--tint-violet) 28%, transparent);
+}
+.dark .text-violet-600 {
+  color: var(--tint-violet-mid);
+}
+.dark .text-violet-700,
+.dark .text-violet-800 {
+  color: var(--tint-violet-lt);
+}
+
+.dark .bg-purple-50,
+.dark .hover\:bg-purple-50:hover {
+  background-color: color-mix(in srgb, var(--tint-purple) 15%, transparent);
+}
+.dark .bg-purple-100,
+.dark .hover\:bg-purple-100:hover {
+  background-color: color-mix(in srgb, var(--tint-purple) 28%, transparent);
+}
+.dark .text-purple-600 {
+  color: var(--tint-purple-mid);
+}
+.dark .text-purple-700,
+.dark .text-purple-800 {
+  color: var(--tint-purple-lt);
+}
+
+.dark .bg-fuchsia-50,
+.dark .hover\:bg-fuchsia-50:hover {
+  background-color: color-mix(in srgb, var(--tint-fuchsia) 15%, transparent);
+}
+.dark .bg-fuchsia-100,
+.dark .hover\:bg-fuchsia-100:hover {
+  background-color: color-mix(in srgb, var(--tint-fuchsia) 28%, transparent);
+}
+.dark .text-fuchsia-600 {
+  color: var(--tint-fuchsia-mid);
+}
+.dark .text-fuchsia-700,
+.dark .text-fuchsia-800 {
+  color: var(--tint-fuchsia-lt);
+}
+
+.dark .bg-rose-50,
+.dark .hover\:bg-rose-50:hover {
+  background-color: color-mix(in srgb, var(--tint-rose) 15%, transparent);
+}
+.dark .bg-rose-100,
+.dark .hover\:bg-rose-100:hover {
+  background-color: color-mix(in srgb, var(--tint-rose) 28%, transparent);
+}
+.dark .text-rose-600 {
+  color: var(--tint-rose-mid);
+}
+.dark .text-rose-700,
+.dark .text-rose-800 {
+  color: var(--tint-rose-lt);
+}
+
+.dark .bg-red-50,
+.dark .hover\:bg-red-50:hover {
+  background-color: color-mix(in srgb, var(--tint-red) 15%, transparent);
+}
+.dark .bg-red-100,
+.dark .hover\:bg-red-100:hover {
+  background-color: color-mix(in srgb, var(--tint-red) 28%, transparent);
+}
+.dark .text-red-600 {
+  color: var(--tint-red-mid);
+}
+.dark .text-red-700,
+.dark .text-red-800 {
+  color: var(--tint-red-lt);
+}
+
+.dark .bg-amber-50,
+.dark .hover\:bg-amber-50:hover {
+  background-color: color-mix(in srgb, var(--tint-amber) 15%, transparent);
+}
+.dark .bg-amber-100,
+.dark .hover\:bg-amber-100:hover {
+  background-color: color-mix(in srgb, var(--tint-amber) 28%, transparent);
+}
+.dark .text-amber-600 {
+  color: var(--tint-amber-mid);
+}
+.dark .text-amber-700,
+.dark .text-amber-800 {
+  color: var(--tint-amber-lt);
+}
+
+.dark .bg-yellow-50,
+.dark .hover\:bg-yellow-50:hover {
+  background-color: color-mix(in srgb, var(--tint-yellow) 15%, transparent);
+}
+.dark .bg-yellow-100,
+.dark .hover\:bg-yellow-100:hover {
+  background-color: color-mix(in srgb, var(--tint-yellow) 28%, transparent);
+}
+.dark .text-yellow-600 {
+  color: var(--tint-yellow-mid);
+}
+.dark .text-yellow-700,
+.dark .text-yellow-800 {
+  color: var(--tint-yellow-lt);
+}
+
+.dark .bg-orange-50,
+.dark .hover\:bg-orange-50:hover {
+  background-color: color-mix(in srgb, var(--tint-orange) 15%, transparent);
+}
+.dark .bg-orange-100,
+.dark .hover\:bg-orange-100:hover {
+  background-color: color-mix(in srgb, var(--tint-orange) 28%, transparent);
+}
+.dark .text-orange-600 {
+  color: var(--tint-orange-mid);
+}
+.dark .text-orange-700,
+.dark .text-orange-800 {
+  color: var(--tint-orange-lt);
+}
+
+.dark .bg-pink-50,
+.dark .hover\:bg-pink-50:hover {
+  background-color: color-mix(in srgb, var(--tint-pink) 15%, transparent);
+}
+.dark .bg-pink-100,
+.dark .hover\:bg-pink-100:hover {
+  background-color: color-mix(in srgb, var(--tint-pink) 28%, transparent);
+}
+.dark .text-pink-600 {
+  color: var(--tint-pink-mid);
+}
+.dark .text-pink-700,
+.dark .text-pink-800 {
+  color: var(--tint-pink-lt);
+}
+
+.dark .bg-cyan-50,
+.dark .hover\:bg-cyan-50:hover {
+  background-color: color-mix(in srgb, var(--tint-cyan) 15%, transparent);
+}
+.dark .bg-cyan-100,
+.dark .hover\:bg-cyan-100:hover {
+  background-color: color-mix(in srgb, var(--tint-cyan) 28%, transparent);
+}
+.dark .text-cyan-600 {
+  color: var(--tint-cyan-mid);
+}
+.dark .text-cyan-700,
+.dark .text-cyan-800 {
+  color: var(--tint-cyan-lt);
+}
+
+.dark .bg-lime-50,
+.dark .hover\:bg-lime-50:hover {
+  background-color: color-mix(in srgb, var(--tint-lime) 15%, transparent);
+}
+.dark .bg-lime-100,
+.dark .hover\:bg-lime-100:hover {
+  background-color: color-mix(in srgb, var(--tint-lime) 28%, transparent);
+}
+.dark .text-lime-600 {
+  color: var(--tint-lime-mid);
+}
+.dark .text-lime-700,
+.dark .text-lime-800 {
+  color: var(--tint-lime-lt);
+}
+
+body {
+  font-family: 'Poppins', 'Noto Sans Khmer', sans-serif;
+  background-color: #f9fafb;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-scroll {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c7d2fe #f1f5f9;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.nav-scroll::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 9999px;
+}
+
+.nav-scroll::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border: 2px solid #f1f5f9;
+  border-radius: 9999px;
+}
+
+.nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: #a5b4fc;
+}
+
+.dark .nav-scroll {
+  scrollbar-color: #4c1d95 #1f2738;
+}
+
+.dark .nav-scroll::-webkit-scrollbar-track {
+  background: #1f2738;
+}
+
+.dark .nav-scroll::-webkit-scrollbar-thumb {
+  background: #4c1d95;
+  border-color: #1f2738;
+}
+
+.dark .nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: #5b21b6;
+}
+
+/* Horizontally scrollable row that hides the scrollbar chrome. Used by the
+   second navbar row, where a visible bar under the links looks out of place
+   but the links still need to overflow gracefully on narrow viewports. */
+.nav-scroll-slim {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-scroll-slim::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes pi-float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pi-float-slower {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+.animate-float-slow {
+  animation: pi-float-slow 6s ease-in-out infinite;
+}
+
+.animate-float-slower {
+  animation: pi-float-slower 8s ease-in-out infinite;
+}
+
+/* Animated gold frame around the whole viewport for active VIP members.
+   The pseudo-element is a large rotating conic gradient; the parent mask
+   keeps only a thin ring so page content and click targets stay untouched. */
+.vip-page-frame {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  padding: 3px;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.vip-page-frame::before {
+  content: '';
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(
+    from 0deg,
+    #bf953f,
+    #fcf6ba,
+    #b38728,
+    #fcf6ba,
+    #bf953f
+  );
+  animation: vip-frame-rotate 6s linear infinite;
+}
+
+@keyframes vip-frame-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Shimmering gold ring for VIP avatars, matching the page frame. */
+.premium-avatar-ring {
+  background: linear-gradient(
+    120deg,
+    #bf953f,
+    #fcf6ba,
+    #b38728,
+    #fcf6ba,
+    #bf953f
+  );
+  background-size: 300% 300%;
+  animation: premium-avatar-shimmer 3.5s ease-in-out infinite;
+}
+
+@keyframes premium-avatar-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vip-page-frame::before,
+  .premium-avatar-ring {
+    animation: none;
+  }
+}
+
+/* Flowing gold border around the whole books template for VIP members. */
+.vip-books-frame {
+  position: relative;
+}
+
+.vip-books-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  padding: 3px;
+  pointer-events: none;
+  background: linear-gradient(
+    130deg,
+    #bf953f,
+    #fcf6ba,
+    #b38728,
+    #fcf6ba,
+    #bf953f
+  );
+  background-size: 300% 300%;
+  animation: vip-books-border-flow 5s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+@keyframes vip-books-border-flow {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 300% 50%;
+  }
+}
+
+/* Floating VIP profile card docked to the right edge of the books page. */
+.vip-profile-dock {
+  display: none;
+}
+
+@media (min-width: 1536px) {
+  .vip-profile-dock {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    z-index: 40;
+    display: block;
+    transform: translateY(-50%);
+    text-decoration: none;
+  }
+}
+
+.vip-profile-dock__float {
+  position: relative;
+  display: block;
+  animation: vip-dock-float 5s ease-in-out infinite;
+}
+
+.vip-profile-dock__halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 170px;
+  height: 170px;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0deg,
+    transparent,
+    rgba(252, 246, 186, 0.75),
+    rgba(191, 149, 63, 0.6),
+    transparent 60%
+  );
+  filter: blur(14px);
+  opacity: 0.75;
+  pointer-events: none;
+  animation: vip-halo-spin 6s linear infinite;
+}
+
+.vip-profile-dock__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.1rem 0.9rem 0.9rem;
+  border-radius: 1.4rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  box-shadow:
+    0 10px 30px rgba(212, 175, 55, 0.22),
+    inset 0 0 0 1px rgba(252, 246, 186, 0.5);
+  backdrop-filter: blur(14px);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.vip-profile-dock:hover .vip-profile-dock__card {
+  transform: scale(1.04);
+  box-shadow:
+    0 14px 38px rgba(212, 175, 55, 0.35),
+    inset 0 0 0 1px rgba(252, 246, 186, 0.7);
+}
+
+.vip-profile-dock__crown {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  color: #fff;
+  background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+}
+
+.vip-profile-dock__name {
+  max-width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.dark .vip-profile-dock__card {
+  background: rgba(27, 35, 54, 0.92);
+}
+
+.dark .vip-profile-dock__name {
+  color: #f1f3f7;
+}
+
+@keyframes vip-dock-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes vip-halo-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vip-books-frame::after,
+  .vip-profile-dock__float,
+  .vip-profile-dock__halo {
+    animation: none;
+  }
+}

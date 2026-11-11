@@ -1,0 +1,720 @@
+{% load static %}
+{% include 'Pinky-Caffee/include/head.html' %}
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    {% include 'Pinky-Caffee/include/header.html' %}
+    <!-- Header Section End -->
+
+    <!-- Hero Section Begin -->
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar -->
+                {% include 'Pinky-Caffee/include/sidebar.html' %}
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="{% url 'index' %}" method="GET">
+                                <div class="hero__search__categories">
+                                    All Categories
+                                    <span class="arrow_carrot-down"></span>
+                                </div>
+                                <input type="text" name="search" placeholder="What coffee do you need?">
+                                <button type="submit" class="site-btn">SEARCH</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>+855 12 345 678</h5>
+                                <span>Support 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/1-realistic-coffee.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>{{ product.productName }}</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'index' %}">Home</a>
+                            {% if product.categoryID %}
+                            <a href="#">{{ product.categoryID.categoryName }}</a>
+                            {% endif %}
+                            <span>{{ product.productName }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <!-- Product Image -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            {% if product.productImage %}
+                            <img class="product__details__pic__item--large"
+                                src="{% static product.productImage %}" alt="{{ product.productName }}">
+                            {% else %}
+                            <img class="product__details__pic__item--large"
+                                src="{% static 'img/categories/product-placeholder.png' %}" alt="{{ product.productName }}">
+                            {% endif %}
+                        </div>
+                        <!-- Product Image Thumbnails (if you have multiple images) -->
+                        <div class="product__details__pic__slider owl-carousel">
+                            {% if product.productImage %}
+                            <img data-imgbigurl="{% static product.productImage %}"
+                                src="{% static product.productImage %}" alt="{{ product.productName }}">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3>{{ product.productName }}</h3>
+                        
+                        <!-- Rating -->
+                        <div class="product__details__rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                            <span>(18 reviews)</span>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="product__details__price">${{ product.price }}</div>
+                        
+                        <!-- Description -->
+                        <p>Enjoy our delicious {{ product.productName }}. Made with premium ingredients and crafted with care by our expert baristas. Perfect for any time of the day!</p>
+                        
+                        <!-- Add to Cart Form -->
+                        <form action="{% url 'add-to-cart' product.id %}" method="POST" class="add-to-cart-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            
+                            <!-- Quantity Selector -->
+                            <div class="product__details__quantity">
+                                <div class="quantity">
+                                    <div class="pro-qty">
+                                        <input type="number" value="1" id="quantity" name="quantity" min="1">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Add to Cart Button -->
+                            <button type="submit" class="primary-btn">ADD TO CART</button>
+                        </form>
+                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        
+                        <!-- Product Info -->
+                        <ul>
+                            <li><b>Availability</b> <span>{% if product.quantity %}In Stock ({{ product.quantity }} available){% else %}Out of Stock{% endif %}</span></li>
+                            <li><b>Category</b> <span>{% if product.categoryID %}{{ product.categoryID.categoryName }}{% else %}Uncategorized{% endif %}</span></li>
+                            <li><b>Preparation Time</b> <span>5-10 minutes</span></li>
+                            <li><b>Share on</b>
+                                <div class="footer__widget">
+                                    <div class="footer__widget__social">
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                        <a href="#"><i class="fa fa-instagram"></i></a>
+                                        <a href="#"><i class="fa fa-pinterest"></i></a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Product Tabs -->
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                    aria-selected="true">Description</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                    aria-selected="false">Ingredients</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                    aria-selected="false">Reviews <span>(18)</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <!-- Description Tab -->
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Product Description</h6>
+                                    <p>{{ product.productName }} is one of our signature beverages at Pinky Caffee. 
+                                    Crafted with the finest ingredients and prepared by our skilled baristas, 
+                                    this drink offers a perfect balance of flavors that will delight your taste buds.</p>
+                                    <p>Whether you're starting your morning, taking a midday break, or enjoying an 
+                                    afternoon treat, our {{ product.productName }} is the perfect companion. 
+                                    Each cup is made fresh to order, ensuring you get the best quality every time.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Ingredients Tab -->
+                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Ingredients & Nutrition</h6>
+                                    <p><strong>Main Ingredients:</strong></p>
+                                    <ul class="ingredient-list">
+                                        <li>Premium Arabica Coffee Beans</li>
+                                        <li>Fresh Milk / Plant-based Alternative</li>
+                                        <li>Natural Sweeteners</li>
+                                        <li>Filtered Water</li>
+                                    </ul>
+                                    <p><strong>Nutritional Information (per serving):</strong></p>
+                                    <ul class="nutrition-list">
+                                        <li>Calories: 150-250 kcal</li>
+                                        <li>Protein: 5-8g</li>
+                                        <li>Carbohydrates: 20-30g</li>
+                                        <li>Fat: 5-10g</li>
+                                    </ul>
+                                    <p><em>*Nutritional values may vary based on customizations</em></p>
+                                </div>
+                            </div>
+                            
+                            <!-- Reviews Tab -->
+                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Customer Reviews</h6>
+                                    
+                                    <!-- Review Item -->
+                                    <div class="review-item">
+                                        <div class="review-header">
+                                            <strong>Sarah M.</strong>
+                                            <span class="review-date">January 15, 2026</span>
+                                            <div class="review-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <p>"Absolutely delicious! The {{ product.productName }} is now my go-to drink. 
+                                        Perfect balance of flavors and always served fresh."</p>
+                                    </div>
+                                    
+                                    <!-- Review Item -->
+                                    <div class="review-item">
+                                        <div class="review-header">
+                                            <strong>John D.</strong>
+                                            <span class="review-date">January 10, 2026</span>
+                                            <div class="review-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                        </div>
+                                        <p>"Great taste and excellent service. Will definitely order again!"</p>
+                                    </div>
+                                    
+                                    <!-- Add Review Form -->
+                                    <div class="add-review mt-4">
+                                        <h6>Write a Review</h6>
+                                        <form action="#" method="POST">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label>Your Rating</label>
+                                                <div class="rating-select">
+                                                    <i class="fa fa-star-o" data-rating="1"></i>
+                                                    <i class="fa fa-star-o" data-rating="2"></i>
+                                                    <i class="fa fa-star-o" data-rating="3"></i>
+                                                    <i class="fa fa-star-o" data-rating="4"></i>
+                                                    <i class="fa fa-star-o" data-rating="5"></i>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Your Review</label>
+                                                <textarea class="form-control" rows="4" placeholder="Share your experience..."></textarea>
+                                            </div>
+                                            <button type="submit" class="site-btn">Submit Review</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+
+    <!-- Related Product Section Begin -->
+    {% if related_products %}
+    <section class="related-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title related__product__title">
+                        <h2>Related Products</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for related in related_products %}
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="{% if related.productImage %}{% static related.productImage %}{% else %}{% static 'img/categories/product-placeholder.png' %}{% endif %}">
+                            <ul class="product__item__pic__hover">
+                                <li><a href="{% url 'add-to-wishlist' product.id %}" title="Add to Wishlist"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="{% url 'product-detail' related.id %}" title="Compare"><i class="fa fa-eye"></i></a></li>
+                                <li><a href="{% url 'product-detail' related.id %}" title="View Details"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="{% url 'product-detail' related.id %}">{{ related.productName }}</a></h6>
+                            <h5>${{ related.price }}</h5>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <!-- Related Product Section End -->
+
+    <!-- Footer Section Begin -->
+    {% include 'Pinky-Caffee/include/footer.html' %}
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    {% include 'Pinky-Caffee/include/scriq-js.html' %}
+
+    <!-- Custom Product Detail Scripts -->
+    <script>
+        // Quantity increment/decrement
+        document.addEventListener('DOMContentLoaded', function() {
+            var proQty = document.querySelector('.pro-qty');
+            if (proQty) {
+                var qtybtn = proQty.querySelectorAll('.qtybtn');
+                var input = proQty.querySelector('input');
+                
+                qtybtn.forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        var currentVal = parseInt(input.value);
+                        if (this.classList.contains('inc')) {
+                            input.value = currentVal + 1;
+                        } else {
+                            if (currentVal > 1) {
+                                input.value = currentVal - 1;
+                            }
+                        }
+                    });
+                });
+            }
+
+            // Rating select functionality
+            var ratingStars = document.querySelectorAll('.rating-select i');
+            ratingStars.forEach(function(star) {
+                star.addEventListener('click', function() {
+                    var rating = this.getAttribute('data-rating');
+                    ratingStars.forEach(function(s, index) {
+                        if (index < rating) {
+                            s.classList.remove('fa-star-o');
+                            s.classList.add('fa-star');
+                        } else {
+                            s.classList.remove('fa-star');
+                            s.classList.add('fa-star-o');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <!-- Custom Product Detail Styles -->
+    <style>
+        .product__details__pic__item {
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .product__details__pic__item--large {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .product__details__text h3 {
+            color: #1c1c1c;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .product__details__rating {
+            margin-bottom: 15px;
+        }
+
+        .product__details__rating i {
+            color: #EDBB0E;
+            margin-right: 2px;
+        }
+
+        .product__details__rating span {
+            color: #888;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .product__details__price {
+            font-size: 32px;
+            font-weight: 700;
+            color: #7fad39;
+            margin-bottom: 20px;
+        }
+
+        .product__details__text p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .product__details__quantity {
+            margin-bottom: 20px;
+        }
+
+        .pro-qty {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #e1e1e1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .pro-qty .qtybtn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: #f5f5f5;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .pro-qty .qtybtn:hover {
+            background: #7fad39;
+            color: #fff;
+        }
+
+        .pro-qty input {
+            width: 60px;
+            height: 40px;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .primary-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #7fad39;
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .primary-btn:hover {
+            background: #6a9a2e;
+            color: #fff;
+        }
+
+        .heart-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            border: 1px solid #e1e1e1;
+            border-radius: 4px;
+            font-size: 18px;
+            color: #1c1c1c;
+            transition: all 0.3s;
+        }
+
+        .heart-icon:hover {
+            background: #7fad39;
+            border-color: #7fad39;
+            color: #fff;
+        }
+
+        .product__details__text ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+            border-top: 1px solid #e1e1e1;
+            padding-top: 20px;
+        }
+
+        .product__details__text ul li {
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .product__details__text ul li b {
+            width: 150px;
+            color: #1c1c1c;
+        }
+
+        .product__details__text ul li span {
+            color: #666;
+        }
+
+        .share a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: #f5f5f5;
+            border-radius: 50%;
+            color: #1c1c1c;
+            margin-right: 8px;
+            transition: all 0.3s;
+        }
+
+        .share a:hover {
+            background: #7fad39;
+            color: #fff;
+        }
+
+        /* Tabs */
+        .product__details__tab {
+            margin-top: 50px;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #e1e1e1;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #666;
+            font-weight: 600;
+            padding: 15px 25px;
+            transition: all 0.3s;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #7fad39;
+            border-bottom: 2px solid #7fad39;
+            margin-bottom: -2px;
+        }
+
+        .tab-content {
+            padding: 30px 0;
+        }
+
+        .product__details__tab__desc h6 {
+            color: #1c1c1c;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .ingredient-list, .nutrition-list {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .ingredient-list li, .nutrition-list li {
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        /* Reviews */
+        .review-item {
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .review-header strong {
+            margin-right: 15px;
+            color: #1c1c1c;
+        }
+
+        .review-date {
+            color: #888;
+            font-size: 14px;
+            margin-right: 15px;
+        }
+
+        .review-rating i {
+            color: #EDBB0E;
+        }
+
+        .add-review {
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .rating-select i {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .rating-select i:hover,
+        .rating-select i.fa-star {
+            color: #EDBB0E;
+        }
+
+        /* Related Products */
+        .related__product__title h2 {
+            color: #1c1c1c;
+            font-weight: 700;
+        }
+
+        .product__item {
+            margin-bottom: 30px;
+        }
+
+        .product__item__pic {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product__item__pic__hover {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.5);
+            transition: all 0.3s;
+        }
+
+        .product__item:hover .product__item__pic__hover {
+            bottom: 0;
+        }
+
+        .product__item__pic__hover li {
+            list-style: none;
+            margin: 0 5px;
+        }
+
+        .product__item__pic__hover li a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border-radius: 50%;
+            color: #1c1c1c;
+            transition: all 0.3s;
+        }
+
+        .product__item__pic__hover li a:hover {
+            background: #7fad39;
+            color: #fff;
+        }
+
+        .product__item__text {
+            padding-top: 15px;
+            text-align: center;
+        }
+
+        .product__item__text h6 a {
+            color: #1c1c1c;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .product__item__text h6 a:hover {
+            color: #7fad39;
+        }
+
+        .product__item__text h5 {
+            color: #7fad39;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product__details__text ul li {
+                flex-direction: column;
+            }
+
+            .product__details__text ul li b {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .product__details__price {
+                font-size: 26px;
+            }
+        }
+    </style>
+
+</body>
+
+</html>
+
+
+
+
+

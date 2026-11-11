@@ -1,0 +1,288 @@
+{% load static %}
+{% include 'Pinky-Caffee/include/head.html' %}
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    {% include 'Pinky-Caffee/include/header.html' %}
+    <!-- Header Section End -->
+
+    <!-- Hero Section Begin -->
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar -->
+                {% include 'Pinky-Caffee/include/sidebar.html' %}
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="{% url 'index' %}" method="GET">
+                                <div class="hero__search__categories">
+                                    All Categories
+                                    <span class="arrow_carrot-down"></span>
+                                </div>
+                                <input type="text" name="search" placeholder="What coffee do you need?">
+                                <button type="submit" class="site-btn">SEARCH</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>+855 12 345 678</h5>
+                                <span>Support 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Order Invoice</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'index' %}">Home</a>
+                            <span>Invoice #{{ order.order_number }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Invoice Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
+            <div class="row">
+                <!-- Invoice Header -->
+                <div class="col-lg-12 mb-4">
+                    <div class="invoice-header bg-success text-white p-4 rounded">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="mb-2"><i class="fa fa-check-circle mr-2"></i>Order Confirmed!</h3>
+                                <p class="mb-0">Thank you for your order. Your order has been successfully placed.</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <h4 class="mb-1">Order #{{ order.order_number }}</h4>
+                                <p class="mb-0">Placed on {{ order.created_at|date:"F d, Y \a\t g:i A" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Details and Customer Info -->
+                <div class="col-lg-8">
+                    <div class="invoice-details">
+                        <h4 class="checkout__title">Order Details</h4>
+
+                        <!-- Order Items -->
+                        <div class="invoice-items mb-4">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th class="text-center">Quantity</th>
+                                        <th class="text-center">Price</th>
+                                        <th class="text-center">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in order_items %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                {% if item.product.productImage %}
+                                                <img src="{% static item.product.productImage %}" alt="{{ item.product.productName }}"
+                                                     class="invoice-item-img mr-3" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                                {% else %}
+                                                <img src="{% static 'img/categories/product-placeholder.png' %}" alt="{{ item.product.productName }}"
+                                                     class="invoice-item-img mr-3" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                                {% endif %}
+                                                <div>
+                                                    <h6 class="mb-0">{{ item.product.productName }}</h6>
+                                                    {% if item.product.categoryID %}
+                                                    <small class="text-muted">{{ item.product.categoryID.categoryName }}</small>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">{{ item.quantity }}</td>
+                                        <td class="text-center">${{ item.price }}</td>
+                                        <td class="text-center"><strong>${{ item.get_subtotal }}</strong></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="order-summary bg-light p-3 rounded">
+                            <h5>Order Summary</h5>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="mb-1"><strong>Subtotal:</strong></p>
+                                    <p class="mb-1"><strong>Shipping:</strong></p>
+                                    <p class="mb-1"><strong>Discount:</strong></p>
+                                    <p class="mb-0"><strong>Total:</strong></p>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <p class="mb-1">${{ order.subtotal }}</p>
+                                    <p class="mb-1">${{ order.shipping_cost }}</p>
+                                    <p class="mb-1 text-success">-${{ order.discount }}</p>
+                                    <p class="mb-0 h5 text-primary">${{ order.total }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Info -->
+                        <div class="payment-info mt-4">
+                            <h5>Payment Information</h5>
+                            <div class="bg-light p-3 rounded">
+                                <p class="mb-1"><strong>Payment Method:</strong>
+                                    {% if order.payment_method == 'cash_on_delivery' %}
+                                        <span class="badge badge-info">Cash on Delivery</span>
+                                    {% elif order.payment_method == 'bank_transfer' %}
+                                        <span class="badge badge-primary">Bank Transfer</span>
+                                    {% elif order.payment_method == 'credit_card' %}
+                                        <span class="badge badge-success">Credit/Debit Card</span>
+                                    {% elif order.payment_method == 'aba_pay' %}
+                                        <span class="badge badge-warning">ABA Pay / Wing</span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">{{ order.payment_method|title }}</span>
+                                    {% endif %}
+                                </p>
+                                <p class="mb-0"><strong>Order Status:</strong>
+                                    <span class="badge badge-success">{{ order.order_status|title }}</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        {% if order.order_notes %}
+                        <div class="order-notes mt-4">
+                            <h5>Order Notes</h5>
+                            <div class="bg-light p-3 rounded">
+                                <p class="mb-0">{{ order.order_notes }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Customer Information -->
+                <div class="col-lg-4">
+                    <div class="customer-info">
+                        <h4 class="checkout__title">Customer Information</h4>
+
+                        <!-- Billing Address -->
+                        <div class="address-card bg-light p-3 rounded mb-3">
+                            <h6 class="text-primary mb-2"><i class="fa fa-user mr-1"></i>Billing Information</h6>
+                            <p class="mb-1"><strong>{{ order.get_full_name }}</strong></p>
+                            <p class="mb-1">{{ order.email }}</p>
+                            <p class="mb-1">{{ order.phone }}</p>
+                            <p class="mb-0">
+                                <i class="fa fa-map-marker mr-1"></i>
+                                {{ order.street_address }}
+                                {% if order.apartment %}, {{ order.apartment }}{% endif %}<br>
+                                {{ order.city }}, {{ order.state }} {{ order.postcode }}<br>
+                                {{ order.country }}
+                            </p>
+                        </div>
+
+                        {% if order.different_shipping %}
+                        <!-- Shipping Address -->
+                        <div class="address-card bg-light p-3 rounded">
+                            <h6 class="text-primary mb-2"><i class="fa fa-truck mr-1"></i>Shipping Address</h6>
+                            <p class="mb-0">
+                                <i class="fa fa-map-marker mr-1"></i>
+                                {{ order.get_shipping_address }}
+                            </p>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="invoice-actions mt-4">
+                        <a href="{% url 'index' %}" class="site-btn w-100 mb-2">
+                            <i class="fa fa-shopping-bag mr-2"></i>Continue Shopping
+                        </a>
+                        <button onclick="window.print()" class="site-btn site-btn-secondary w-100">
+                            <i class="fa fa-print mr-2"></i>Print Invoice
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Invoice Section End -->
+
+    <!-- Footer Section Begin -->
+    {% include 'Pinky-Caffee/include/footer.html' %}
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    {% include 'Pinky-Caffee/include/scriq-js.html' %}
+
+    <!-- Invoice Styles -->
+    <style>
+        .invoice-header {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .invoice-item-img {
+            border: 1px solid #e9ecef;
+        }
+
+        .order-summary {
+            border: 1px solid #dee2e6;
+        }
+
+        .address-card {
+            border: 1px solid #dee2e6;
+        }
+
+        .invoice-actions .site-btn-secondary {
+            background: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .invoice-actions .site-btn-secondary:hover {
+            background: #5a6268;
+            border-color: #545b62;
+        }
+
+        @media print {
+            .header, .footer, .breadcrumb-section, .hero, .invoice-actions {
+                display: none !important;
+            }
+
+            .invoice-header {
+                background: #f8f9fa !important;
+                color: #000 !important;
+                border: 2px solid #000 !important;
+            }
+
+            body {
+                background: white !important;
+            }
+        }
+    </style>
+</body>
+
+</html>
+
+
+
+

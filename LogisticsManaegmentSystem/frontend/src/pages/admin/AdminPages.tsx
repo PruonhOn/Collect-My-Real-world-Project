@@ -1,0 +1,5 @@
+export { UsersPage } from './UsersPage'
+export { RolesPage } from './RolesPage'
+export { NotificationsPage } from './NotificationsPage'
+export { ActivityLogsPage } from './ActivityLogsPage'
+export { SettingsPage } from './SettingsPage'

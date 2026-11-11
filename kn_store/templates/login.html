@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ theme }}">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="  initial-scale=1.0">
+<title>K&N Store — Login</title>
+<link rel="icon" type="image/jpg" href="logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root { --accent: #7c3aed; --accent2: #a855f7; }
+[data-theme="light"] { --bg: #f0eeff; --bg2: #ffffff; --border: #e8e5f5; --text: #1e1b2e; --text2: #6b7280; }
+[data-theme="dark"]  { --bg: #0f0d1a; --bg2: #1a1726; --border: #2d2847; --text: #e9e6ff; --text2: #9490b0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+.login-wrap { width: 420px; }
+.login-brand { text-align: center; margin-bottom: 32px; }
+.brand-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 16px; box-shadow: 0 8px 32px rgba(124,58,237,0.35); }
+.brand-name { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+.brand-sub { font-size: 13px; color: var(--text2); margin-top: 4px; letter-spacing: 2px; text-transform: uppercase; }
+.login-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 36px; box-shadow: 0 20px 60px rgba(124,58,237,0.1); }
+.login-card h2 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.login-card p { color: var(--text2); font-size: 14px; margin-bottom: 28px; }
+.form-group { margin-bottom: 18px; }
+label { display: block; font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+input { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; transition: all 0.2s; outline: none; }
+input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+.btn-login { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Syne', sans-serif; letter-spacing: 0.3px; transition: all 0.2s; margin-top: 8px; }
+.btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
+.hint { background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; padding: 12px 16px; margin-top: 20px; font-size: 12px; color: var(--text2); text-align: center; }
+.hint strong { color: var(--accent); }
+.flash { padding: 10px 16px; border-radius: 10px; margin-bottom: 18px; font-size: 13px; font-weight: 600; background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+.bg-orbs { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: -1; }
+.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.25; }
+.orb1 { width: 400px; height: 400px; background: var(--accent); top: -100px; left: -100px; }
+.orb2 { width: 300px; height: 300px; background: var(--accent2); bottom: -80px; right: -80px; }
+</style>
+</head>
+<body>
+<div class="bg-orbs"><div class="orb orb1"></div><div class="orb orb2"></div></div>
+<div class="login-wrap">
+  <div class="login-brand">
+    <div class="brand-icon">🔧</div>
+    <div class="brand-name">K&N Store</div>
+    <div class="brand-sub">Management System</div>
+  </div>
+  <div class="login-card">
+    <h2>Welcome back</h2>
+    <p>Sign in to your admin dashboard</p>
+    {% with messages = get_flashed_messages() %}
+      {% for message in messages %}<div class="flash">⚠️ {{ message }}</div>{% endfor %}
+    {% endwith %}
+    <form method="POST">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="admin" required autofocus>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-login">Sign In →</button>
+    </form>
+    <div class="hint">Default: <strong>admin</strong> / <strong>admin123</strong></div>
+  </div>
+</div>
+</body>
+</html>

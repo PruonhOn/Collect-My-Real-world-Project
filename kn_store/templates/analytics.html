@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Analytics — K&N Store{% endblock %}
+{% block page_title %}Analytics{% endblock %}
+{% block breadcrumb %}K&N Store / Analytics{% endblock %}
+{% block content %}
+<div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap">
+  <button class="btn btn-primary btn-sm" onclick="loadCharts(7)">7 Days</button>
+  <button class="btn btn-ghost btn-sm" id="btn30" onclick="loadCharts(30)">30 Days</button>
+  <button class="btn btn-ghost btn-sm" id="btn60" onclick="loadCharts(60)">60 Days</button>
+</div>
+
+<div class="grid-2" style="margin-bottom:20px">
+  <div class="card">
+    <h3 style="font-family:'Syne',sans-serif;font-size:14px;margin-bottom:16px">📈 Sales Revenue Trend</h3>
+    <div id="trendWrap" style="min-height:200px;display:flex;align-items:center;justify-content:center">
+      <div style="color:var(--text2)">Loading...</div>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="font-family:'Syne',sans-serif;font-size:14px;margin-bottom:16px">🥧 Sales by Category</h3>
+    <div id="catWrap" style="min-height:200px;display:flex;align-items:center;justify-content:center">
+      <div style="color:var(--text2)">Loading...</div>
+    </div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h3 style="font-family:'Syne',sans-serif;font-size:14px;margin-bottom:16px">🏆 Top Products</h3>
+    <div id="topWrap" style="min-height:200px;display:flex;align-items:center;justify-content:center">
+      <div style="color:var(--text2)">Loading...</div>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="font-family:'Syne',sans-serif;font-size:14px;margin-bottom:16px">📅 Monthly Overview</h3>
+    <div id="monthWrap" style="min-height:200px;display:flex;align-items:center;justify-content:center">
+      <div style="color:var(--text2)">Loading...</div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+function loadCharts(days) {
+  ['trendWrap','catWrap','topWrap','monthWrap'].forEach(id => {
+    document.getElementById(id).innerHTML = '<div style="color:var(--text2)">Loading...</div>';
+  });
+  fetch(`/api/chart/sales-trend?days=${days}`).then(r=>r.text()).then(d=>{
+    document.getElementById('trendWrap').innerHTML = `<img src="${d}" style="max-width:100%;border-radius:8px">`;
+  });
+  fetch('/api/chart/category-sales').then(r=>r.text()).then(d=>{
+    document.getElementById('catWrap').innerHTML = `<img src="${d}" style="max-width:100%;border-radius:8px">`;
+  });
+  fetch('/api/chart/top-products').then(r=>r.text()).then(d=>{
+    document.getElementById('topWrap').innerHTML = `<img src="${d}" style="max-width:100%;border-radius:8px">`;
+  });
+  fetch('/api/chart/monthly-revenue').then(r=>r.text()).then(d=>{
+    document.getElementById('monthWrap').innerHTML = `<img src="${d}" style="max-width:100%;border-radius:8px">`;
+  });
+}
+loadCharts(30);
+</script>
+{% endblock %}

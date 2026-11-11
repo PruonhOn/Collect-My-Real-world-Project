@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Reports — K&N Store{% endblock %}
+{% block page_title %}Reports{% endblock %}
+{% block breadcrumb %}K&N Store / Reports{% endblock %}
+{% block content %}
+<div style="max-width:700px">
+  <div class="card" style="margin-bottom:20px">
+    <h2 style="font-family:'Syne',sans-serif;font-size:18px;margin-bottom:6px">📋 Generate Report</h2>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:24px">Download a detailed PDF report for any time period</p>
+    <form method="POST" action="{{ url_for('generate_report') }}">
+      <div class="form-group"><label>Report Period</label>
+        <select name="period" style="font-size:15px;padding:12px">
+          <option value="day">📅 Daily Report (Today)</option>
+          <option value="week">📅 Weekly Report (Last 7 Days)</option>
+          <option value="month">📅 Monthly Report (Last 30 Days)</option>
+          <option value="year">📅 Annual Report (Last 365 Days)</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;padding:13px;font-size:15px">
+        ⬇️ Generate & Download PDF Report
+      </button>
+    </form>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+    {% for period, label, icon, desc in [('day','Daily','📅','Today\'s transactions'),('week','Weekly','📊','Last 7 days activity'),('month','Monthly','📈','Last 30 days overview'),('year','Annual','🏆','Full year summary')] %}
+    <div class="card" style="padding:20px">
+      <div style="font-size:32px;margin-bottom:10px">{{ icon }}</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:4px">{{ label }} Report</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px">{{ desc }}</div>
+      <form method="POST" action="{{ url_for('generate_report') }}">
+        <input type="hidden" name="period" value="{{ period }}">
+        <button type="submit" class="btn btn-outline btn-sm" style="width:100%">Download PDF</button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

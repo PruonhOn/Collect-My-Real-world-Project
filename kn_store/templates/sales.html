@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Sales — K&N Store{% endblock %}
+{% block page_title %}Sales{% endblock %}
+{% block breadcrumb %}K&N Store / Sales{% endblock %}
+{% block content %}
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+  <div style="display:flex;gap:8px">
+    {% for p, label in [('all','All'),('today','Today'),('week','This Week'),('month','This Month')] %}
+    <a href="?period={{ p }}" class="btn btn-sm {{ 'btn-primary' if period == p else 'btn-ghost' }}">{{ label }}</a>
+    {% endfor %}
+  </div>
+  <button class="btn btn-primary" onclick="openModal('addSale')">+ Record Sale</button>
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Product</th><th>Customer</th><th>Qty</th><th>Unit Price</th><th>Total</th><th>Payment</th><th>Date</th></tr></thead>
+      <tbody>
+      {% for sale in sales.items %}
+      <tr>
+        <td style="color:var(--text2);font-size:12px">#{{ sale.id }}</td>
+        <td style="font-weight:600">{{ sale.product.name[:30] }}</td>
+        <td>{{ sale.customer_name }}</td>
+        <td><span class="badge badge-info">{{ sale.quantity }}</span></td>
+        <td style="color:var(--text2)">${{ "%.2f"|format(sale.unit_price) }}</td>
+        <td style="font-weight:700;color:var(--accent)">${{ "%.2f"|format(sale.total_price) }}</td>
+        <td>
+          {% if sale.payment_method == 'cash' %}<span class="badge badge-success">💵 Cash</span>
+          {% elif sale.payment_method == 'card' %}<span class="badge badge-info">💳 Card</span>
+          {% else %}<span class="badge badge-purple">🏦 Transfer</span>{% endif %}
+        </td>
+        <td style="color:var(--text2);font-size:12px">{{ sale.sale_date.strftime('%b %d, %Y %H:%M') }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text2)">No sales for this period</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination" style="margin-top:16px">
+    {% if sales.has_prev %}<a href="?page={{ sales.prev_num }}&period={{ period }}" class="page-btn">‹</a>{% endif %}
+    {% for p in sales.iter_pages() %}
+      {% if p %}<a href="?page={{ p }}&period={{ period }}" class="page-btn {{ 'active' if p == sales.page }}">{{ p }}</a>
+      {% else %}<span class="page-btn">…</span>{% endif %}
+    {% endfor %}
+    {% if sales.has_next %}<a href="?page={{ sales.next_num }}&period={{ period }}" class="page-btn">›</a>{% endif %}
+  </div>
+</div>
+
+<!-- Record Sale Modal -->
+<div class="modal-overlay" id="addSale">
+  <div class="modal">
+    <div class="modal-header"><h3>💰 Record New Sale</h3><button class="modal-close" onclick="closeModal('addSale')">×</button></div>
+    <form method="POST" action="{{ url_for('add_sale') }}">
+      <div class="form-group">
+        <label>Product *</label>
+        <select name="product_id" id="saleProduct" onchange="updatePrice()" required>
+          <option value="">Select product...</option>
+          {% for p in products %}
+          <option value="{{ p.id }}" data-price="{{ p.price }}" data-stock="{{ p.quantity }}">{{ p.name }} (Stock: {{ p.quantity }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="grid-2">
+        <div class="form-group"><label>Quantity *</label>
+          <input name="quantity" id="saleQty" type="number" min="1" value="1" required onchange="calcTotal()">
+        </div>
+        <div class="form-group"><label>Unit Price</label>
+          <input id="salePrice" type="text" readonly placeholder="Select product" style="background:var(--bg3)">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Estimated Total</label>
+        <div id="saleTotal" style="padding:10px 14px;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:10px;font-weight:700;color:var(--accent);font-size:18px">—</div>
+      </div>
+      <div class="form-group"><label>Customer Name</label><input name="customer_name" placeholder="Walk-in" value="Walk-in"></div>
+      <div class="form-group"><label>Payment Method</label>
+        <select name="payment_method">
+          <option value="cash">💵 Cash</option>
+          <option value="card">💳 Card</option>
+          <option value="transfer">🏦 Bank Transfer</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Notes</label><textarea name="notes" placeholder="Optional notes..."></textarea></div>
+      <button type="submit" class="btn btn-primary" style="width:100%">✅ Record Sale</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+function updatePrice() {
+  const sel = document.getElementById('saleProduct');
+  const opt = sel.options[sel.selectedIndex];
+  const price = opt.dataset.price || 0;
+  document.getElementById('salePrice').value = '$' + parseFloat(price).toFixed(2);
+  calcTotal();
+}
+function calcTotal() {
+  const sel = document.getElementById('saleProduct');
+  const opt = sel.options[sel.selectedIndex];
+  const price = parseFloat(opt.dataset.price || 0);
+  const qty = parseInt(document.getElementById('saleQty').value || 1);
+  document.getElementById('saleTotal').textContent = '$' + (price * qty).toFixed(2);
+}
+</script>
+{% endblock %}

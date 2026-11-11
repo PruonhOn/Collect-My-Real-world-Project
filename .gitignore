@@ -1,0 +1,14 @@
+# Safety-net ignores for subprojects that don't ship their own .gitignore
+node_modules/
+vendor/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini

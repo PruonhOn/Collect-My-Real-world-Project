@@ -1,0 +1,53 @@
+{% extends "downloader/base.html" %}
+{% block title %}Edit Profile — K&N Downloader{% endblock %}
+{% block content %}
+<style>
+.update-wrap { max-width:560px; margin:2rem auto; padding:0 1.5rem 4rem; }
+.page-title { font-family:'Orbitron',monospace; font-size:1.5rem; font-weight:900; margin-bottom:0.4rem; }
+.form-errors { background:rgba(255,0,110,0.08); border:1px solid rgba(255,0,110,0.3); border-radius:8px; padding:0.8rem 1rem; margin-bottom:1.2rem; color:var(--neon-pink); font-size:0.88rem; }
+.avatar-preview { width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid var(--neon-cyan); margin-bottom:1rem; }
+</style>
+<div class="update-wrap">
+  <div class="page-title gradient-text">Edit Profile</div>
+  <p style="color:var(--text-secondary);margin-bottom:2rem;font-size:0.9rem">Update your personal info and profile settings</p>
+  {% if form.errors %}
+  <div class="form-errors">Please fix the errors below.</div>
+  {% endif %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card">
+      {% if user.profile.avatar %}<img src="{{ user.profile.avatar.url }}" class="avatar-preview" alt="">{% endif %}
+      <div class="form-group">
+        <label class="form-label">Profile Picture</label>
+        <input type="file" name="avatar" class="form-input" accept="image/*">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" name="first_name" class="form-input" value="{{ form.first_name.value|default:'' }}" placeholder="First name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" name="last_name" class="form-input" value="{{ form.last_name.value|default:'' }}" placeholder="Last name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-input" value="{{ form.email.value|default:'' }}" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Bio</label>
+        <textarea name="bio" class="form-input" rows="3" placeholder="Tell us about yourself...">{{ form.bio.value|default:'' }}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Website</label>
+        <input type="url" name="website" class="form-input" value="{{ form.website.value|default:'' }}" placeholder="https://yoursite.com">
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.5rem">
+        <button type="submit" class="btn btn-primary">&#10003; Save Changes</button>
+        <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

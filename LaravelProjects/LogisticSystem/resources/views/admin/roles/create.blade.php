@@ -1,0 +1,110 @@
+<x-admin-layout>
+    @section('title', 'Create Role - ' . config('app.name'))
+
+    @section('breadcrumbs')
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.roles.index') }}">Roles</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create</li>
+    @endsection
+
+    @section('page-title', 'Create Role')
+    @section('page-subtitle', 'Define a new role with permissions')
+
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('admin.roles.store') }}" method="POST">
+                @csrf
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Role Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                        <small class="text-muted">e.g., Warehouse Manager, Fleet Supervisor</small>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="slug" class="form-label">Slug <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug') }}" required placeholder="warehouse-manager">
+                        <small class="text-muted">Auto-generated from name. Lowercase, hyphenated.</small>
+                        @error('slug')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-12">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="2">{{ old('description') }}</textarea>
+                        @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <hr class="my-4">
+                <h6 class="fw-bold mb-3"><i class="bi bi-key me-1"></i>Permissions</h6>
+
+                <div class="row g-3">
+                    @forelse($permissionGroups ?? [] as $group => $permissions)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border h-100">
+                                <div class="card-header py-2 bg-light">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <span class="fw-medium small text-uppercase">{{ $group }}</span>
+                                        <div class="form-check">
+                                            <input class="form-check-input group-checkbox" type="checkbox" id="group_{{ Str::slug($group) }}" onchange="toggleGroup(this, '{{ Str::slug($group) }}')">
+                                            <label class="form-check-label small" for="group_{{ Str::slug($group) }}">All</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body py-2">
+                                    @foreach($permissions as $permission)
+                                        <div class="form-check mb-1">
+                                            <input class="form-check-input permission-checkbox group-{{ Str::slug($group) }}" type="checkbox" name="permissions[]" value="{{ $permission->id ?? $permission }}" id="perm_{{ $permission->id ?? Str::slug($permission) }}"
+                                                {{ in_array($permission->id ?? $permission, old('permissions', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label small" for="perm_{{ $permission->id ?? Str::slug($permission) }}">
+                                                {{ $permission->label ?? $permission->name ?? $permission }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <div class="alert alert-info mb-0">
+                                <i class="bi bi-info-circle me-1"></i> No permission groups defined. Permissions are managed through the system configuration.
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+                @error('permissions')
+                    <div class="text-danger small mt-2">{{ $message }}</div>
+                @enderror
+
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                    <a href="{{ route('admin.roles.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i> Create Role
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @section('scripts')
+    <script>
+        document.getElementById('name').addEventListener('input', function() {
+            const slug = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            document.getElementById('slug').value = slug;
+        });
+
+        function toggleGroup(source, group) {
+            document.querySelectorAll('.group-' + group).forEach(cb => cb.checked = source.checked);
+        }
+    </script>
+    @endsection
+</x-admin-layout>

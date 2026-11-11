@@ -1,0 +1,42 @@
+{% load static %}
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'dashboard' %}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-clinic-medical"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Django Admin</div>
+    </a>
+
+    <hr class="sidebar-divider my-0">
+
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'dashboard' %}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">
+        System
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'logout' %}">
+            <i class="fas fa-fw fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+    <div class="sidebar-card d-none d-lg-flex">
+        <img class="sidebar-card-illustration mb-2" src="{% static 'dashboard/img/undraw_rocket.svg' %}" alt="Rocket illustration">
+        <p class="text-center mb-2"><strong>SB Admin 2</strong> is now connected to Django templates and auth.</p>
+    </div>
+</ul>

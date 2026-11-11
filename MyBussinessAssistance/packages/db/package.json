@@ -1,0 +1,28 @@
+{
+  "name": "@mba/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply mybusiness-db --local -c ../../apps/api/wrangler.dev.jsonc",
+    "db:migrate:remote": "wrangler d1 migrations apply mybusiness-db --remote -c ../../apps/api/wrangler.jsonc",
+    "db:seed:local": "wrangler d1 execute mybusiness-db --local -c ../../apps/api/wrangler.dev.jsonc --file=./seeds/0001_platform.sql"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.38.3"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241218.0",
+    "drizzle-kit": "^0.30.1",
+    "typescript": "^5.7.2",
+    "wrangler": "^4.0.0"
+  }
+}

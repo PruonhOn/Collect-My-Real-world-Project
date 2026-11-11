@@ -1,0 +1,51 @@
+{% extends "downloader/base.html" %}
+{% block title %}Sign Up — K&N Downloader{% endblock %}
+{% block content %}
+<style>
+.auth-wrap { min-height: calc(100vh - 80px); display:flex; align-items:center; justify-content:center; padding:2rem 1.5rem; }
+.auth-card { width:100%; max-width:440px; }
+.auth-title { font-family:'Orbitron',monospace; font-size:1.5rem; font-weight:900; margin-bottom:0.3rem; }
+.auth-sub { color:var(--text-secondary); font-size:0.9rem; margin-bottom:2rem; }
+.auth-footer { text-align:center; margin-top:1.5rem; color:var(--text-secondary); font-size:0.9rem; }
+.auth-footer a { color:var(--neon-cyan); text-decoration:none; font-weight:600; }
+.form-errors { background:rgba(255,0,110,0.08); border:1px solid rgba(255,0,110,0.3); border-radius:8px; padding:0.8rem 1rem; margin-bottom:1rem; color:var(--neon-pink); font-size:0.88rem; }
+.form-errors ul { padding-left:1.2rem; }
+.divider { border:none; border-top:1px solid var(--border-glow); margin:1.5rem 0; }
+</style>
+<div class="auth-wrap">
+  <div class="auth-card card">
+    <div style="text-align:center;margin-bottom:1.8rem">
+      <div style="font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">K&amp;N</div>
+      <div class="auth-title">Create Account</div>
+      <div class="auth-sub">Join K&amp;N Downloader for free</div>
+    </div>
+    {% if form.errors %}
+    <div class="form-errors">
+      {% for field in form %}{% if field.errors %}<div><strong>{{ field.label }}:</strong> {{ field.errors|join:", " }}</div>{% endif %}{% endfor %}
+      {% if form.non_field_errors %}<div>{{ form.non_field_errors|join:", " }}</div>{% endif %}
+    </div>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input type="text" name="username" class="form-input" placeholder="Choose a username" value="{{ form.username.value|default:'' }}" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-input" placeholder="your@email.com" value="{{ form.email.value|default:'' }}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" name="password1" class="form-input" placeholder="Create a strong password" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirm Password</label>
+        <input type="password" name="password2" class="form-input" placeholder="Repeat your password" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:0.5rem">Create Account</button>
+    </form>
+    <div class="auth-footer">Already have an account? <a href="{% url 'login' %}">Sign In</a></div>
+  </div>
+</div>
+{% endblock %}

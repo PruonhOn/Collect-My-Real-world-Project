@@ -1,0 +1,700 @@
+{% load static %}
+{% include 'Pinky-Caffee/include/head.html' %}
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    {% include 'Pinky-Caffee/include/header.html' %}
+    <!-- Header Section End -->
+
+    <!-- Hero Section Begin -->
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar -->
+                {% include 'Pinky-Caffee/include/sidebar.html' %}
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="{% url 'index' %}" method="GET">
+                                <div class="hero__search__categories">
+                                    All Categories
+                                    <span class="arrow_carrot-down"></span>
+                                </div>
+                                <input type="text" name="search" placeholder="What coffee do you need?">
+                                <button type="submit" class="site-btn">SEARCH</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>+855 12 345 678</h5>
+                                <span>Support 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/2-breadcrumb.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Checkout</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'index' %}">Home</a>
+                            <a href="{% url 'shopping-bag' %}">Shopping Bag</a>
+                            <span>Checkout</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
+            <!-- Coupon Section -->
+            <div class="row mb-4">
+                <div class="col-lg-12">
+                    <div class="checkout__coupon">
+                        <h6><span class="icon_tag_alt"></span> Have a coupon? <a href="#" data-toggle="collapse" data-target="#couponForm">Click here</a> to enter your code</h6>
+                        <div class="collapse" id="couponForm">
+                            <div class="checkout__coupon__form mt-3">
+                                <form action="#" method="POST">
+                                    {% csrf_token %}
+                                    <div class="input-group">
+                                        <input type="text" name="coupon_code" class="form-control" placeholder="Enter coupon code">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="site-btn">Apply Coupon</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Checkout Form -->
+            <div class="checkout__form">
+                <form action="{% url 'checkout' %}" method="POST" id="checkoutForm">
+                    {% csrf_token %}
+                    <div class="row">
+                        <!-- Billing Details Column -->
+                        <div class="col-lg-8 col-md-7">
+                            <h4 class="checkout__title">Billing Details</h4>
+                            
+                            <!-- Name Fields -->
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="checkout__input">
+                                        <p>First Name<span class="text-danger">*</span></p>
+                                        <input type="text" name="first_name" id="first_name" required 
+                                               class="form-control" placeholder="Enter your first name">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="checkout__input">
+                                        <p>Last Name<span class="text-danger">*</span></p>
+                                        <input type="text" name="last_name" id="last_name" required 
+                                               class="form-control" placeholder="Enter your last name">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Country -->
+                            <div class="checkout__input">
+                                <p>Country<span class="text-danger">*</span></p>
+                                <select name="country" id="country" class="form-control" required>
+                                    <option value="">Select your country</option>
+                                    <option value="Cambodia">Cambodia</option>
+                                    <option value="Thailand">Thailand</option>
+                                    <option value="Vietnam">Vietnam</option>
+                                    <option value="Laos">Laos</option>
+                                    <option value="Myanmar">Myanmar</option>
+                                    <option value="Malaysia">Malaysia</option>
+                                    <option value="Singapore">Singapore</option>
+                                    <option value="Indonesia">Indonesia</option>
+                                    <option value="Philippines">Philippines</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="checkout__input">
+                                <p>Address<span class="text-danger">*</span></p>
+                                <input type="text" name="street_address" id="street_address" required 
+                                       class="form-control checkout__input__add mb-2" 
+                                       placeholder="House number and street name">
+                                <input type="text" name="apartment" id="apartment" 
+                                       class="form-control" 
+                                       placeholder="Apartment, suite, unit, etc. (optional)">
+                            </div>
+
+                            <!-- City and State -->
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="checkout__input">
+                                        <p>Town / City<span class="text-danger">*</span></p>
+                                        <input type="text" name="city" id="city" required 
+                                               class="form-control" placeholder="Enter your city">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="checkout__input">
+                                        <p>Province / State<span class="text-danger">*</span></p>
+                                        <input type="text" name="state" id="state" required 
+                                               class="form-control" placeholder="Enter your province/state">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Postcode -->
+                            <div class="checkout__input">
+                                <p>Postcode / ZIP<span class="text-danger">*</span></p>
+                                <input type="text" name="postcode" id="postcode" required 
+                                       class="form-control" placeholder="Enter your postcode/ZIP">
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="checkout__input">
+                                        <p>Phone<span class="text-danger">*</span></p>
+                                        <input type="tel" name="phone" id="phone" required 
+                                               class="form-control" placeholder="+855 XX XXX XXXX">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="checkout__input">
+                                        <p>Email Address<span class="text-danger">*</span></p>
+                                        <input type="email" name="email" id="email" required 
+                                               class="form-control" placeholder="your@email.com">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Create Account Option -->
+                            <div class="checkout__input__checkbox mt-3">
+                                <label for="create_account">
+                                    <input type="checkbox" id="create_account" name="create_account" 
+                                           onchange="toggleAccountFields()">
+                                    <span class="checkmark"></span>
+                                    Create an account for faster checkout next time?
+                                </label>
+                            </div>
+
+                            <!-- Account Creation Fields (Hidden by default) -->
+                            <div id="accountFields" style="display: none;">
+                                <div class="checkout__input">
+                                    <p>Create Password<span class="text-danger">*</span></p>
+                                    <input type="password" name="password" id="password" 
+                                           class="form-control" placeholder="Create a password">
+                                </div>
+                                <div class="checkout__input">
+                                    <p>Confirm Password<span class="text-danger">*</span></p>
+                                    <input type="password" name="confirm_password" id="confirm_password" 
+                                           class="form-control" placeholder="Confirm your password">
+                                </div>
+                            </div>
+
+                            <!-- Different Shipping Address -->
+                            <div class="checkout__input__checkbox mt-3">
+                                <label for="different_address">
+                                    <input type="checkbox" id="different_address" name="different_address" 
+                                           onchange="toggleShippingFields()">
+                                    <span class="checkmark"></span>
+                                    Ship to a different address?
+                                </label>
+                            </div>
+
+                            <!-- Shipping Address Fields (Hidden by default) -->
+                            <div id="shippingFields" style="display: none;" class="mt-3 p-3 bg-light rounded">
+                                <h5 class="mb-3">Shipping Address</h5>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="checkout__input">
+                                            <p>First Name<span class="text-danger">*</span></p>
+                                            <input type="text" name="shipping_first_name" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="checkout__input">
+                                            <p>Last Name<span class="text-danger">*</span></p>
+                                            <input type="text" name="shipping_last_name" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="checkout__input">
+                                    <p>Address<span class="text-danger">*</span></p>
+                                    <input type="text" name="shipping_address" class="form-control" 
+                                           placeholder="Shipping address">
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="checkout__input">
+                                            <p>City<span class="text-danger">*</span></p>
+                                            <input type="text" name="shipping_city" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="checkout__input">
+                                            <p>Postcode<span class="text-danger">*</span></p>
+                                            <input type="text" name="shipping_postcode" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Order Notes -->
+                            <div class="checkout__input mt-4">
+                                <p>Order Notes (Optional)</p>
+                                <textarea name="order_notes" id="order_notes" rows="4" 
+                                          class="form-control" 
+                                          placeholder="Notes about your order, e.g., special instructions for delivery or coffee preferences."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary Column -->
+                        <div class="col-lg-4 col-md-5">
+                            <div class="checkout__order">
+                                <h4 class="checkout__title">Your Order</h4>
+                                
+                                <!-- Order Items Header -->
+                                <div class="checkout__order__products">
+                                    <span class="product-name">Product</span>
+                                    <span class="product-total">Total</span>
+                                </div>
+
+                                <!-- Order Items List -->
+                                <ul class="checkout__order__list">
+                                    {% for item in cart_items %}
+                                    <li>
+                                        <span class="item-name">
+                                            {% if item.product.productImage %}
+                                            <img src="{% static item.product.productImage %}" alt="{{ item.product.productName }}" class="checkout__item__img">
+                                            {% else %}
+                                            <img src="{% static 'img/categories/product-placeholder.png' %}" alt="{{ item.product.productName }}" class="checkout__item__img">
+                                            {% endif %}
+                                            {{ item.product.productName }} x {{ item.quantity }}
+                                        </span>
+                                        <span class="item-price">${{ item.get_subtotal|floatformat:2 }}</span>
+                                    </li>
+                                    {% empty %}
+                                    <li class="text-center py-3">
+                                        <span class="text-muted">Your cart is empty</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+
+                                <!-- Order Totals -->
+                                <div class="checkout__order__subtotal">
+                                    <span>Subtotal</span>
+                                    <span>${{ cart.get_total_price|floatformat:2 }}</span>
+                                </div>
+                                <div class="checkout__order__shipping">
+                                    <span>Shipping</span>
+                                    <span>$2.00</span>
+                                </div>
+                                <div class="checkout__order__discount">
+                                    <span>Discount</span>
+                                    <span class="text-success">-$0.00</span>
+                                </div>
+                                <div class="checkout__order__total">
+                                    <span>Total</span>
+                                    <span class="total-price">${{ cart.get_total_price|add:2|floatformat:2 }}</span>
+                                </div>
+
+                                <!-- Payment Methods -->
+                                <div class="checkout__payment mt-4">
+                                    <h5 class="mb-3">Payment Method</h5>
+                                    
+                                    <div class="checkout__input__checkbox">
+                                        <label for="payment_cod">
+                                            <input type="radio" id="payment_cod" name="payment_method" 
+                                                   value="cash_on_delivery" checked>
+                                            <span class="checkmark"></span>
+                                            <i class="fa fa-money mr-2"></i> Cash on Delivery
+                                        </label>
+                                        <p class="payment-desc">Pay with cash when your order arrives.</p>
+                                    </div>
+                                    
+                                    <div class="checkout__input__checkbox">
+                                        <label for="payment_aba">
+                                            <input type="radio" id="payment_aba" name="payment_method" 
+                                                   value="aba_pay">
+                                            <span class="checkmark"></span>
+                                            <i class="fa fa-mobile mr-2"></i> ABA Pay / Wing
+                                        </label>
+                                        <p class="payment-desc">Pay using mobile banking apps.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Terms and Conditions -->
+                                <div class="checkout__input__checkbox mt-3">
+                                    <label for="terms">
+                                        <input type="checkbox" id="terms" name="terms" required>
+                                        <span class="checkmark"></span>
+                                        I have read and agree to the <a href="#" class="text-primary">Terms & Conditions</a>
+                                    </label>
+                                </div>
+
+                                <!-- Place Order Button -->
+                                <button type="submit" class="site-btn checkout__btn">
+                                    <i class="fa fa-lock mr-2"></i> PLACE ORDER
+                                </button>
+
+                                <!-- Security Notice -->
+                                <div class="checkout__security mt-3 text-center">
+                                    <small class="text-muted">
+                                        <i class="fa fa-shield"></i> Your payment information is secure and encrypted
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- Checkout Section End -->
+
+    <!-- Latest Product Section Begin -->
+    <!-- {% include 'Pinky-Caffee/include/latest-product.html' %} -->
+    <!-- Latest Product Section End -->
+
+    <!-- Footer Section Begin -->
+    {% include 'Pinky-Caffee/include/footer.html' %}
+    <!-- Footer Section End -->
+
+    <!-- Payment Modals -->
+    <!-- COD Approval Modal -->
+    <div class="modal fade" id="codModal" tabindex="-1" role="dialog" aria-labelledby="codModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="codModalLabel">Order Approved</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="fa fa-check-circle text-success" style="font-size: 48px;"></i>
+                    <h4 class="mt-3">Your order has been approved!</h4>
+                    <p>You will pay cash on delivery when your order arrives.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" id="confirmCod">Proceed to Bill</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Payment Modal -->
+    <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qrModalLabel">Scan QR Code to Pay</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="{% static 'img/1-payment_item.png' %}" alt="QR Code" class="img-fluid mb-3" style="max-width: 200px;">
+                    <p>Scan the QR code using your ABA Pay or Wing app to complete the payment.</p>
+                    <p class="text-muted">Total: <strong class="total-price">${{ cart.get_total_price|add:2|floatformat:2 }}</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmQr">Confirm Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Js Plugins -->
+    {% include 'Pinky-Caffee/include/scriq-js.html' %}
+
+    <!-- Custom Checkout Scripts -->
+    <script>
+        // Toggle account creation fields
+        function toggleAccountFields() {
+            var accountFields = document.getElementById('accountFields');
+            var checkbox = document.getElementById('create_account');
+            accountFields.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        // Toggle shipping address fields
+        function toggleShippingFields() {
+            var shippingFields = document.getElementById('shippingFields');
+            var checkbox = document.getElementById('different_address');
+            shippingFields.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        // Form validation and payment modal handling
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Always prevent default submission
+
+            var terms = document.getElementById('terms');
+            if (!terms.checked) {
+                alert('Please agree to the Terms & Conditions to proceed.');
+                return false;
+            }
+
+            // Password validation if creating account
+            var createAccount = document.getElementById('create_account');
+            if (createAccount.checked) {
+                var password = document.getElementById('password').value;
+                var confirmPassword = document.getElementById('confirm_password').value;
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return false;
+                }
+                if (password.length < 6) {
+                    alert('Password must be at least 6 characters long.');
+                    return false;
+                }
+            }
+
+            // Show appropriate payment modal based on selected payment method
+            var paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+            if (paymentMethod === 'cash_on_delivery') {
+                $('#codModal').modal('show');
+            } else if (paymentMethod === 'aba_pay') {
+                $('#qrModal').modal('show');
+            }
+        });
+
+        // Handle COD confirmation
+        document.getElementById('confirmCod').addEventListener('click', function() {
+            $('#codModal').modal('hide');
+            // Submit the form after modal confirmation
+            document.getElementById('checkoutForm').submit();
+        });
+
+        // Handle QR payment confirmation
+        document.getElementById('confirmQr').addEventListener('click', function() {
+            $('#qrModal').modal('hide');
+            // Submit the form after modal confirmation
+            document.getElementById('checkoutForm').submit();
+        });
+    </script>
+
+    <!-- Custom Checkout Styles -->
+    <style>
+        .checkout__title {
+            color: #1c1c1c;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #7fad39;
+        }
+
+        .checkout__input p {
+            color: #1c1c1c;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .checkout__input input,
+        .checkout__input select,
+        .checkout__input textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e1e1e1;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .checkout__input input:focus,
+        .checkout__input select:focus,
+        .checkout__input textarea:focus {
+            border-color: #7fad39;
+            outline: none;
+            box-shadow: 0 0 5px rgba(127, 173, 57, 0.3);
+        }
+
+        .checkout__order {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 8px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .checkout__order__products {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .checkout__order__list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+
+        .checkout__order__list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #e1e1e1;
+        }
+
+        .checkout__item__img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .item-name {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: #7fad39;
+        }
+
+        .checkout__order__subtotal,
+        .checkout__order__shipping,
+        .checkout__order__discount {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .checkout__order__total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1c1c1c;
+        }
+
+        .total-price {
+            color: #7fad39;
+            font-size: 22px;
+        }
+
+        .checkout__payment h5 {
+            color: #1c1c1c;
+            font-weight: 600;
+        }
+
+        .payment-desc {
+            font-size: 12px;
+            color: #888;
+            margin: 5px 0 10px 25px;
+        }
+
+        .checkout__btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 20px;
+        }
+
+        .checkout__coupon {
+            background: #fff3cd;
+            padding: 15px 20px;
+            border-radius: 4px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .checkout__coupon h6 {
+            margin: 0;
+        }
+
+        .checkout__coupon a {
+            color: #7fad39;
+            font-weight: 600;
+        }
+
+        .checkout__input__checkbox {
+            margin-bottom: 10px;
+        }
+
+        .checkout__input__checkbox label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .checkout__input__checkbox input[type="checkbox"],
+        .checkout__input__checkbox input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .checkout__security {
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 4px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .checkout__order {
+                margin-top: 30px;
+                position: static;
+            }
+
+            .checkout__input input,
+            .checkout__input select {
+                padding: 10px 12px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .checkout__order {
+                padding: 20px;
+            }
+
+            .item-name {
+                font-size: 12px;
+            }
+
+            .checkout__item__img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+
+</body>
+
+</html>
+
+
+
+
+

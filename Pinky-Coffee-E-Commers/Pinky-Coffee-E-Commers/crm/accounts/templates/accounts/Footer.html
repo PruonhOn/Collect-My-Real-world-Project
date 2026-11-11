@@ -1,0 +1,8 @@
+{% load static %}
+<div class="row">
+    <div class="col-lg-12">
+        {%for footer in ObjDTFooter %}
+        <img src="{% static footer.ImageURL %}" alt="BANNER" width="100%">
+        {% endfor %}
+    </div>
+</div>

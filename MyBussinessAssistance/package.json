@@ -1,0 +1,33 @@
+{
+  "name": "mybusiness-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MyBusiness Assistant - Cambodia-first all-in-one business management SaaS",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c cyan,green \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "npm run dev -w @mba/api",
+    "dev:web": "npm run dev -w @mba/web",
+    "build": "npm run build -w @mba/web && npm run build -w @mba/api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "vitest run",
+    "db:generate": "npm run db:generate -w @mba/db",
+    "db:migrate:local": "npm run db:migrate:local -w @mba/db",
+    "db:migrate:remote": "npm run db:migrate:remote -w @mba/db",
+    "db:seed:local": "npm run db:seed:local -w @mba/db",
+    "admin:grant": "node scripts/admin-grant.mjs",
+    "deploy": "wrangler deploy -c apps/api/wrangler.jsonc"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.12",
+    "wrangler": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}

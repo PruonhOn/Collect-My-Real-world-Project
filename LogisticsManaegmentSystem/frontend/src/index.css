@@ -1,0 +1,420 @@
+@import 'tailwindcss';
+
+/*
+ * ---------------------------------------------------------------------------
+ * Logistics ERP design tokens
+ * ---------------------------------------------------------------------------
+ * One neutral ramp plus a single brand hue. Enterprise dashboards fail when
+ * every module invents its own palette, so colour is defined once here and
+ * referenced by semantic name. Status colours live in a separate scale so a
+ * shipment badge and an invoice badge never share a shade by accident.
+ */
+
+@theme {
+  --font-sans: 'Inter var', Inter, ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+
+  /* Brand - deep maritime blue */
+  --color-brand-50: oklch(0.97 0.014 254);
+  --color-brand-100: oklch(0.93 0.03 254);
+  --color-brand-200: oklch(0.87 0.05 253);
+  --color-brand-300: oklch(0.78 0.075 252);
+  --color-brand-400: oklch(0.68 0.105 251);
+  --color-brand-500: oklch(0.58 0.125 250);
+  --color-brand-600: oklch(0.5 0.13 250);
+  --color-brand-700: oklch(0.43 0.115 251);
+  --color-brand-800: oklch(0.36 0.095 252);
+  --color-brand-900: oklch(0.3 0.075 253);
+  --color-brand-950: oklch(0.21 0.055 255);
+
+  /* Premium - gold accents for VIP/service-tier screens */
+  --color-premium-50: oklch(0.98 0.03 75);
+  --color-premium-100: oklch(0.95 0.055 72);
+  --color-premium-200: oklch(0.89 0.09 70);
+  --color-premium-300: oklch(0.81 0.13 68);
+  --color-premium-400: oklch(0.72 0.16 66);
+  --color-premium-500: oklch(0.62 0.18 64);
+  --color-premium-600: oklch(0.54 0.17 62);
+  --color-premium-700: oklch(0.46 0.15 60);
+  --color-premium-800: oklch(0.39 0.12 58);
+  --color-premium-900: oklch(0.32 0.09 56);
+
+  /* Neutral */
+  --color-ink-50: oklch(0.985 0.002 247);
+  --color-ink-100: oklch(0.967 0.003 247);
+  --color-ink-200: oklch(0.927 0.006 247);
+  --color-ink-300: oklch(0.865 0.008 247);
+  --color-ink-400: oklch(0.704 0.012 247);
+  --color-ink-500: oklch(0.554 0.014 247);
+  --color-ink-600: oklch(0.446 0.015 247);
+  --color-ink-700: oklch(0.372 0.015 247);
+  --color-ink-800: oklch(0.279 0.014 247);
+  --color-ink-900: oklch(0.208 0.014 247);
+  --color-ink-950: oklch(0.145 0.013 247);
+
+  /* Semantic status */
+  --color-success-50: oklch(0.977 0.013 155);
+  --color-success-500: oklch(0.627 0.155 155);
+  --color-success-600: oklch(0.545 0.135 155);
+  --color-success-700: oklch(0.46 0.11 155);
+
+  --color-warning-50: oklch(0.985 0.02 92);
+  --color-warning-500: oklch(0.742 0.15 75);
+  --color-warning-600: oklch(0.666 0.16 58);
+  --color-warning-700: oklch(0.555 0.135 55);
+
+  --color-danger-50: oklch(0.971 0.013 17);
+  --color-danger-500: oklch(0.585 0.205 27);
+  --color-danger-600: oklch(0.505 0.19 27);
+  --color-danger-700: oklch(0.44 0.16 27);
+
+  --color-info-50: oklch(0.977 0.013 236);
+  --color-info-500: oklch(0.6 0.13 240);
+  --color-info-600: oklch(0.53 0.125 242);
+  --color-info-700: oklch(0.45 0.105 243);
+
+  /* Sidebar is dark in both themes, so it is defined as a fixed surface. */
+  --color-sidebar: oklch(0.21 0.03 255);
+  --color-sidebar-hover: oklch(0.26 0.035 255);
+  --color-sidebar-active: oklch(0.32 0.06 252);
+
+  --radius-card: 0.625rem;
+
+  /*
+   * Auth-screen motion. Kept as named animations rather than one-off inline
+   * styles so the reduced-motion rule below can switch every decorative
+   * movement off in a single place.
+   */
+  --animate-orb: orb-drift 20s ease-in-out infinite alternate;
+  --animate-orb-slow: orb-drift 28s ease-in-out infinite alternate-reverse;
+  --animate-float: float-y 7s ease-in-out infinite;
+  --animate-float-slow: float-y 9s ease-in-out infinite;
+  --animate-route: route-dash 14s linear infinite;
+  --animate-route-slow: route-dash 20s linear infinite reverse;
+  --animate-rise: rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes orb-drift {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(38px, -28px, 0) scale(1.12);
+    }
+    100% {
+      transform: translate3d(-24px, 22px, 0) scale(0.94);
+    }
+  }
+
+  @keyframes float-y {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -12px, 0);
+    }
+  }
+
+  @keyframes route-dash {
+    to {
+      stroke-dashoffset: -320;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
+/*
+ * ---------------------------------------------------------------------------
+ * Theme templates
+ * ---------------------------------------------------------------------------
+ * Three selectable templates. Each one re-points the brand ramp and the fixed
+ * sidebar surface at a different hue; every semantic colour and the whole
+ * neutral ramp stay put, so status badges and data grids keep the same meaning
+ * in all three.
+ *
+ * The `html` element qualifier is what makes this work: `@theme` writes its
+ * variables to `:root`, and `html[...]` outranks it, so these values win no
+ * matter what order the declarations were emitted in.
+ */
+
+html[data-theme='emerald'] {
+  --color-brand-50: oklch(0.97 0.014 160);
+  --color-brand-100: oklch(0.93 0.03 160);
+  --color-brand-200: oklch(0.87 0.05 160);
+  --color-brand-300: oklch(0.78 0.075 160);
+  --color-brand-400: oklch(0.68 0.105 160);
+  --color-brand-500: oklch(0.58 0.125 160);
+  --color-brand-600: oklch(0.5 0.13 160);
+  --color-brand-700: oklch(0.43 0.115 160);
+  --color-brand-800: oklch(0.36 0.095 160);
+  --color-brand-900: oklch(0.3 0.075 162);
+  --color-brand-950: oklch(0.21 0.055 165);
+
+  --color-sidebar: oklch(0.21 0.03 165);
+  --color-sidebar-hover: oklch(0.26 0.035 165);
+  --color-sidebar-active: oklch(0.32 0.06 162);
+}
+
+html[data-theme='sunset'] {
+  --color-brand-50: oklch(0.98 0.018 80);
+  --color-brand-100: oklch(0.95 0.04 78);
+  --color-brand-200: oklch(0.89 0.07 76);
+  --color-brand-300: oklch(0.81 0.11 74);
+  --color-brand-400: oklch(0.72 0.15 70);
+  --color-brand-500: oklch(0.64 0.16 62);
+  --color-brand-600: oklch(0.58 0.15 55);
+  --color-brand-700: oklch(0.5 0.13 50);
+  --color-brand-800: oklch(0.42 0.1 45);
+  --color-brand-900: oklch(0.35 0.08 45);
+  --color-brand-950: oklch(0.24 0.06 45);
+
+  --color-sidebar: oklch(0.24 0.035 55);
+  --color-sidebar-hover: oklch(0.29 0.04 55);
+  --color-sidebar-active: oklch(0.35 0.06 52);
+}
+
+html[data-theme='light'] {
+  --color-brand-50: oklch(0.97 0.014 254);
+  --color-brand-100: oklch(0.93 0.03 254);
+  --color-brand-200: oklch(0.87 0.05 253);
+  --color-brand-300: oklch(0.78 0.075 252);
+  --color-brand-400: oklch(0.68 0.105 251);
+  --color-brand-500: oklch(0.58 0.125 250);
+  --color-brand-600: oklch(0.5 0.13 250);
+  --color-brand-700: oklch(0.43 0.115 251);
+  --color-brand-800: oklch(0.36 0.095 252);
+  --color-brand-900: oklch(0.3 0.075 253);
+  --color-brand-950: oklch(0.21 0.055 255);
+
+  --color-sidebar: oklch(0.21 0.03 255);
+  --color-sidebar-hover: oklch(0.26 0.035 255);
+  --color-sidebar-active: oklch(0.32 0.06 252);
+}
+
+html[data-theme='dark'] {
+  --color-brand-50: oklch(0.14 0.04 255);
+  --color-brand-100: oklch(0.2  0.06 253);
+  --color-brand-200: oklch(0.27 0.08 251);
+  --color-brand-300: oklch(0.34 0.11 248);
+  --color-brand-400: oklch(0.42 0.15 242);
+  --color-brand-500: oklch(0.5 0.18 236);
+  --color-brand-600: oklch(0.54 0.2 230);
+  --color-brand-700: oklch(0.5 0.2 220);
+  --color-brand-800: oklch(0.44 0.16 210);
+  --color-brand-900: oklch(0.36 0.12 200);
+  --color-brand-950: oklch(0.28 0.08 190);
+
+  --color-sidebar: oklch(0.2  0.04 255);
+  --color-sidebar-hover: oklch(0.25 0.05 252);
+  --color-sidebar-active: oklch(0.3 0.1 245);
+
+  --color-ink-50: oklch(0.145 0.013 255);
+  --color-ink-100: oklch(0.2  0.015 253);
+  --color-ink-200: oklch(0.27 0.02 251);
+  --color-ink-300: oklch(0.34 0.03 248);
+  --color-ink-400: oklch(0.42 0.05 242);
+  --color-ink-500: oklch(0.54 0.08 236);
+  --color-ink-600: oklch(0.5 0.1 230);
+  --color-ink-700: oklch(0.45 0.12 222);
+  --color-ink-800: oklch(0.36 0.14 212);
+  --color-ink-900: oklch(0.27 0.14 202);
+  --color-ink-950: oklch(0.18 0.12 190);
+}
+  --color-brand-50: oklch(0.98 0.018 80);
+  --color-brand-100: oklch(0.95 0.04 78);
+  --color-brand-200: oklch(0.89 0.07 76);
+  --color-brand-300: oklch(0.81 0.11 74);
+  --color-brand-400: oklch(0.72 0.15 70);
+  --color-brand-500: oklch(0.64 0.16 62);
+  --color-brand-600: oklch(0.58 0.15 55);
+  --color-brand-700: oklch(0.5 0.13 50);
+  --color-brand-800: oklch(0.42 0.1 45);
+  --color-brand-900: oklch(0.35 0.08 45);
+  --color-brand-950: oklch(0.24 0.06 45);
+
+  --color-sidebar: oklch(0.24 0.035 55);
+  --color-sidebar-hover: oklch(0.29 0.04 55);
+  --color-sidebar-active: oklch(0.35 0.06 52);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-ink-200);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink-100 text-ink-900 font-sans antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  /* A single visible focus treatment everywhere. Removing outlines makes an
+     application unusable by keyboard, so they are restyled, not removed. */
+  :focus-visible {
+    @apply outline-brand-500 outline-2 outline-offset-2;
+  }
+
+  /* Numeric columns must align on the decimal point. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* Dense, high-contrast data grid used by every listing page. */
+  .data-grid {
+    @apply divide-ink-200 divide-y;
+  }
+
+  /*
+   * Auth form choreography.
+   *
+   * The card fades up as a whole, then its sections and fields follow in
+   * sequence. `.auth-form` replaces the form's own entrance so the parent and
+   * the fields do not move twice.
+   */
+  .auth-stagger > * {
+    animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .auth-stagger > *:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+
+  .auth-stagger > *:nth-child(2) {
+    animation-delay: 0.11s;
+  }
+
+  .auth-stagger > *:nth-child(3) {
+    animation-delay: 0.17s;
+  }
+
+  .auth-stagger > *:nth-child(4) {
+    animation-delay: 0.23s;
+  }
+
+  .auth-stagger > *:nth-child(5) {
+    animation-delay: 0.29s;
+  }
+
+  .auth-stagger > *:nth-child(6) {
+    animation-delay: 0.35s;
+  }
+
+  .auth-stagger > .auth-form {
+    animation: none;
+  }
+
+  .auth-form > * {
+    animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .auth-form > *:nth-child(1) {
+    animation-delay: 0.14s;
+  }
+
+  .auth-form > *:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .auth-form > *:nth-child(3) {
+    animation-delay: 0.26s;
+  }
+
+  .auth-form > *:nth-child(4) {
+    animation-delay: 0.32s;
+  }
+
+  .auth-form > *:nth-child(5) {
+    animation-delay: 0.38s;
+  }
+
+  /* Light sweep across the primary submit as it is hovered. */
+  .auth-submit {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .auth-submit::after {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 45%;
+    background: linear-gradient(
+      110deg,
+      transparent,
+      rgba(255, 255, 255, 0.28),
+      transparent
+    );
+    transform: translateX(-130%) skewX(-12deg);
+    pointer-events: none;
+  }
+
+  .auth-submit:hover::after {
+    animation: auth-shine 0.9s ease;
+  }
+
+  .auth-submit:disabled::after {
+    display: none;
+  }
+}
+
+@keyframes auth-shine {
+  from {
+    transform: translateX(-130%) skewX(-12deg);
+  }
+  to {
+    transform: translateX(130%) skewX(-12deg);
+  }
+}
+
+/* Decorative auth motion is optional; honour the OS-level preference. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-orb,
+  .animate-orb-slow,
+  .animate-float,
+  .animate-float-slow,
+  .animate-route,
+  .animate-route-slow,
+  .animate-rise,
+  .auth-stagger > *,
+  .auth-form > * {
+    animation: none !important;
+  }
+
+  .auth-submit:hover::after {
+    animation: none !important;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink-300) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-ink-300 rounded-full;
+  }
+}

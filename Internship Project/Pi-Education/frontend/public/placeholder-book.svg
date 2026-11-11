@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <rect width="600" height="800" fill="#eef2ff"/>
+  <text x="300" y="380" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="#4f46e5" text-anchor="middle">Pi-Education</text>
+  <text x="300" y="430" font-family="Arial, sans-serif" font-size="20" fill="#818cf8" text-anchor="middle">Digital Library</text>
+</svg>

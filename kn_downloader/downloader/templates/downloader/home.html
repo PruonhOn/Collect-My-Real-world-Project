@@ -1,0 +1,259 @@
+{% extends "downloader/base.html" %}
+{% block title %}K&N Downloader — Download Videos Everywhere{% endblock %}
+{% block content %}
+<style>
+.hero { max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem 2rem; text-align: center; }
+.hero-badge {
+  display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--neon-cyan); border: 1px solid var(--border-glow);
+  padding: 0.35rem 1.2rem; border-radius: 30px; margin-bottom: 1.2rem;
+  background: rgba(0,245,255,0.07);
+  animation: fadein 0.8s ease;
+}
+.hero h1 {
+  font-family: 'Orbitron', monospace; font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900; line-height: 1.1; margin-bottom: 1rem;
+  animation: fadein 1s ease;
+}
+.hero p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2.5rem; animation: fadein 1.2s ease; }
+@keyframes fadein { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform:none; } }
+
+.url-form { max-width: 780px; margin: 0 auto 2.5rem; animation: fadein 1.1s ease; }
+.url-row {
+  display: flex; gap: 0.8rem;
+  background: var(--dark-card); border: 1px solid var(--border-glow);
+  border-radius: 12px; padding: 0.6rem; backdrop-filter: blur(20px);
+}
+.url-row input {
+  flex: 1; background: transparent; border: none; outline: none;
+  color: var(--text-primary); font-family: 'Rajdhani',sans-serif;
+  font-size: 1rem; font-weight: 500; padding: 0.5rem 0.8rem;
+}
+.url-row input::placeholder { color: var(--text-secondary); }
+.url-row button { flex-shrink: 0; }
+
+.platforms {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
+  margin-bottom: 3rem; animation: fadein 1.3s ease;
+}
+.platform-tag {
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.5px;
+  padding: 0.3rem 0.9rem; border-radius: 20px;
+  border: 1px solid var(--border-glow); color: var(--text-secondary);
+  background: rgba(0,245,255,0.04); transition: all 0.2s;
+}
+.platform-tag:hover { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(0,245,255,0.08); }
+
+/* RESULT PANEL */
+#result-panel { max-width: 780px; margin: 0 auto 3rem; display: none; animation: fadein 0.5s ease; }
+.result-card { display: flex; gap: 1.5rem; align-items: flex-start; }
+@media(max-width:560px){ .result-card { flex-direction: column; } }
+.result-thumb {
+  width: 200px; min-width: 200px; height: 112px; border-radius: 8px;
+  object-fit: cover; border: 1px solid var(--border-glow);
+  background: rgba(0,245,255,0.05);
+}
+.result-info { flex: 1; }
+.result-title { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.4; }
+.result-meta { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.2rem; }
+.meta-chip {
+  font-size: 0.78rem; font-weight: 600; padding: 0.2rem 0.7rem;
+  border-radius: 20px; background: rgba(0,245,255,0.07);
+  border: 1px solid var(--border-glow); color: var(--neon-cyan);
+}
+.dl-buttons { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+#loading-panel { max-width: 780px; margin: 0 auto 2rem; display: none; text-align: center; padding: 2.5rem; }
+.loading-text { margin-top: 1rem; color: var(--neon-cyan); font-family: 'Orbitron', monospace; font-size: 0.85rem; letter-spacing: 2px; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{ opacity:.5 } 50%{ opacity:1 } }
+#error-panel { max-width: 780px; margin: 0 auto 2rem; display: none; }
+.error-box { border-color: var(--neon-pink); background: rgba(255,0,110,0.07); }
+.error-msg { color: var(--neon-pink); font-weight: 600; font-size: 1rem; }
+
+/* DOWNLOAD PROGRESS */
+#dl-progress { max-width: 780px; margin: 0 auto 2rem; display: none; }
+.progress-bar-wrap { background: rgba(0,245,255,0.07); border-radius: 50px; height: 6px; overflow: hidden; margin-top: 0.8rem; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple)); border-radius: 50px; animation: progressAnim 2s ease-in-out infinite; }
+@keyframes progressAnim { 0%{ width:5% } 50%{ width:80% } 100%{ width:95% } }
+
+/* HISTORY PREVIEW */
+.recent-section { max-width: 780px; margin: 0 auto 4rem; padding: 0 1.5rem; }
+.section-title { font-family: 'Orbitron', monospace; font-size: 1.3rem; font-weight: 900; margin-bottom: 1.2rem; }
+.history-item {
+  display: flex; align-items: center; gap: 1rem; padding: 0.9rem;
+  border-bottom: 1px solid var(--border-glow); transition: all 0.2s;
+}
+.history-item:hover { background: rgba(0,245,255,0.04); border-radius: 8px; }
+.history-thumb { width: 64px; height: 36px; object-fit: cover; border-radius: 4px; background: rgba(0,245,255,0.05); flex-shrink: 0; }
+.history-title { flex: 1; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+.history-meta { font-size: 0.75rem; color: var(--text-secondary); }
+.badge-mp3 { background: rgba(255,0,110,0.15); color: var(--neon-pink); padding: 0.15rem 0.6rem; border-radius: 10px; font-size: 0.72rem; font-weight: 700; }
+.badge-mp4 { background: rgba(0,255,136,0.12); color: var(--neon-green); padding: 0.15rem 0.6rem; border-radius: 10px; font-size: 0.72rem; font-weight: 700; }
+
+/* FEATURES */
+.features { max-width: 900px; margin: 0 auto 4rem; padding: 0 1.5rem; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
+.feature-card {
+  padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-glow);
+  background: rgba(10,10,30,0.6); transition: all 0.3s; text-align: center;
+}
+.feature-card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 20px rgba(0,245,255,0.1); transform: translateY(-3px); }
+.feature-icon { font-size: 2rem; margin-bottom: 0.7rem; }
+.feature-title { font-family: 'Orbitron', monospace; font-size: 0.9rem; font-weight: 700; color: var(--neon-cyan); margin-bottom: 0.5rem; }
+.feature-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+</style>
+
+<div class="hero">
+  <div class="hero-badge">&#9889; Universal Video Downloader</div>
+  <h1 class="gradient-text">Download Any Video<br>From Everywhere</h1>
+  <p>Paste any video URL below &mdash; we'll fetch it instantly in MP4 or MP3</p>
+</div>
+
+<div class="url-form" style="padding:0 1.5rem">
+  <div class="url-row">
+    <input type="url" id="url-input" placeholder="https://youtube.com/watch?v=... or any video URL" autocomplete="off" />
+    <button class="btn btn-primary" onclick="fetchInfo()">&#128269; Fetch</button>
+  </div>
+</div>
+
+<div class="platforms" style="padding:0 1.5rem">
+  {% for p in "YouTube,Vimeo,TikTok,Twitter/X,Instagram,Facebook,Dailymotion,Twitch,Reddit,SoundCloud,Bilibili,Rumble,Odysee".split %}
+  <span class="platform-tag">{{ p }}</span>
+  {% endfor %}
+</div>
+
+<div id="loading-panel">
+  <div class="card" style="display:inline-block;padding:2rem 3rem">
+    <div class="spinner"></div>
+    <div class="loading-text">FETCHING VIDEO INFO...</div>
+  </div>
+</div>
+
+<div id="error-panel" style="padding:0 1.5rem">
+  <div class="card error-box">
+    <div class="error-msg" id="error-msg"></div>
+  </div>
+</div>
+
+<div id="result-panel" style="padding:0 1.5rem">
+  <div class="card">
+    <div class="result-card">
+      <img id="res-thumb" class="result-thumb" src="" alt="Thumbnail" onerror="this.style.display='none'">
+      <div class="result-info">
+        <div class="result-title" id="res-title"></div>
+        <div class="result-meta">
+          <span class="meta-chip" id="res-platform"></span>
+          <span class="meta-chip" id="res-duration"></span>
+          <span class="meta-chip" id="res-uploader"></span>
+        </div>
+        <div class="dl-buttons">
+          <button class="btn btn-mp4" onclick="startDownload('mp4')">&#9654; MP4 Video</button>
+          <button class="btn btn-mp3" onclick="startDownload('mp3')">&#127925; MP3 Audio</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dl-progress" style="padding:0 1.5rem">
+  <div class="card">
+    <div style="color:var(--neon-cyan);font-family:'Orbitron',monospace;font-size:0.85rem;letter-spacing:2px" id="dl-status">PREPARING DOWNLOAD...</div>
+    <div class="progress-bar-wrap"><div class="progress-bar"></div></div>
+  </div>
+</div>
+
+{% if recent %}
+<div class="recent-section">
+  <div class="section-title gradient-text">Your Recent Downloads</div>
+  {% for d in recent %}
+  <div class="history-item">
+    {% if d.thumbnail %}<img class="history-thumb" src="{{ d.thumbnail }}" alt="">{% else %}<div class="history-thumb"></div>{% endif %}
+    <div class="history-title">{{ d.title|truncatechars:60 }}</div>
+    <div class="history-meta">{{ d.platform }} &bull; {{ d.downloaded_at|date:"M d" }}</div>
+    <span class="badge-{{ d.format }}">{{ d.format|upper }}</span>
+  </div>
+  {% endfor %}
+  <div style="margin-top:1rem;text-align:right"><a href="{% url 'history' %}" class="btn btn-secondary" style="padding:0.5rem 1.2rem;font-size:0.75rem">View All</a></div>
+</div>
+{% endif %}
+
+<div class="features">
+  <div class="section-title gradient-text" style="text-align:center;margin-bottom:1.5rem">Why K&amp;N?</div>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon">&#127758;</div><div class="feature-title">1000+ Sites</div><div class="feature-desc">YouTube, TikTok, Instagram, Twitter, Vimeo, Facebook and hundreds more platforms.</div></div>
+    <div class="feature-card"><div class="feature-icon">&#9889;</div><div class="feature-title">Lightning Fast</div><div class="feature-desc">Powered by yt-dlp engine for blazing fast video fetching and downloading.</div></div>
+    <div class="feature-card"><div class="feature-icon">&#127925;</div><div class="feature-title">MP3 &amp; MP4</div><div class="feature-desc">Download as full HD video or extract audio as high-quality 192kbps MP3.</div></div>
+    <div class="feature-card"><div class="feature-icon">&#128274;</div><div class="feature-title">Secure</div><div class="feature-desc">Your downloads are private. No data sold. No tracking. Pure utility.</div></div>
+  </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+const CSRF = '{{ csrf_token }}';
+let currentUrl = '';
+
+async function fetchInfo() {
+  const url = document.getElementById('url-input').value.trim();
+  if (!url) { showError('Please enter a video URL.'); return; }
+  currentUrl = url;
+  hide('result-panel'); hide('error-panel'); hide('dl-progress');
+  show('loading-panel');
+  try {
+    const res = await fetch('/fetch-info/', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','X-CSRFToken':CSRF},
+      body: JSON.stringify({url})
+    });
+    const data = await res.json();
+    hide('loading-panel');
+    if (!data.success) { showError(data.error); return; }
+    document.getElementById('res-thumb').src = data.thumbnail || '';
+    document.getElementById('res-title').textContent = data.title || 'Unknown';
+    document.getElementById('res-platform').textContent = '&#127758; ' + (data.platform || 'Video');
+    document.getElementById('res-duration').textContent = '&#9201; ' + (data.duration || 'Unknown');
+    document.getElementById('res-uploader').textContent = '&#128100; ' + (data.uploader || 'Unknown');
+    show('result-panel');
+  } catch(e) {
+    hide('loading-panel');
+    showError('Network error. Please check your connection and try again.');
+  }
+}
+
+async function startDownload(fmt) {
+  hide('result-panel'); hide('error-panel');
+  document.getElementById('dl-status').textContent = 'PREPARING ' + fmt.toUpperCase() + ' DOWNLOAD...';
+  show('dl-progress');
+  try {
+    const res = await fetch('/download/', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','X-CSRFToken':CSRF},
+      body: JSON.stringify({url: currentUrl, format: fmt})
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(()=>({error:'Download failed.'}));
+      hide('dl-progress'); showError(err.error || 'Download failed.'); return;
+    }
+    hide('dl-progress');
+    const blob = await res.blob();
+    const cd = res.headers.get('Content-Disposition') || '';
+    const fnMatch = cd.match(/filename="?([^"]+)"?/);
+    const filename = fnMatch ? fnMatch[1] : 'download.' + fmt;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    show('result-panel');
+  } catch(e) {
+    hide('dl-progress'); showError('Download failed. Please try again.');
+  }
+}
+
+function showError(msg) { document.getElementById('error-msg').textContent = msg; show('error-panel'); }
+function show(id) { document.getElementById(id).style.display = 'block'; }
+function hide(id) { document.getElementById(id).style.display = 'none'; }
+
+document.getElementById('url-input').addEventListener('keydown', e => { if (e.key === 'Enter') fetchInfo(); });
+</script>
+{% endblock %}

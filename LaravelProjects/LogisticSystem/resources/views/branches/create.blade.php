@@ -1,0 +1,88 @@
+<x-admin-layout>
+    @section('title', 'Create Branch - ' . config('app.name'))
+
+    @section('breadcrumbs')
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('branches.index') }}">Branches</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create</li>
+    @endsection
+
+    @section('page-title', 'Create Branch')
+    @section('page-subtitle', 'Add a new company branch')
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{{ route('branches.store') }}" method="POST">
+                        @csrf
+
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="code" class="form-label">Code <span class="text-danger">*</span></label>
+                                <input type="text" id="code" name="code" class="form-control @error('code') is-invalid @enderror" value="{{ old('code') }}" required>
+                                <x-form-error name="code" />
+                            </div>
+
+                            <div class="col-md-8">
+                                <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required>
+                                <x-form-error name="name" />
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea id="address" name="address" class="form-control @error('address') is-invalid @enderror" rows="2">{{ old('address') }}</textarea>
+                                <x-form-error name="address" />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+                                <input type="text" id="city" name="city" class="form-control @error('city') is-invalid @enderror" value="{{ old('city') }}" required>
+                                <x-form-error name="city" />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="province" class="form-label">Province</label>
+                                <input type="text" id="province" name="province" class="form-control @error('province') is-invalid @enderror" value="{{ old('province') }}">
+                                <x-form-error name="province" />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+                                <input type="text" id="phone" name="phone" class="form-control @error('phone') is-invalid @enderror" value="{{ old('phone') }}" required>
+                                <x-form-error name="phone" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
+                                <x-form-error name="email" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="manager_name" class="form-label">Manager Name</label>
+                                <input type="text" id="manager_name" name="manager_name" class="form-control @error('manager_name') is-invalid @enderror" value="{{ old('manager_name') }}">
+                                <x-form-error name="manager_name" />
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check form-switch">
+                                    <input type="checkbox" id="is_active" name="is_active" class="form-check-input" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
+                                    <label for="is_active" class="form-check-label">Active</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg me-1"></i> Create Branch
+                            </button>
+                            <a href="{{ route('branches.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-admin-layout>

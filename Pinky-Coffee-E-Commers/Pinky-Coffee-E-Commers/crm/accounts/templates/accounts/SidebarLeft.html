@@ -1,0 +1,8 @@
+{% load static %}
+<div class="col-lg-2 ">
+    {% for ObjDTSlidebarLeft in ObjDTSlidebarLeft %}
+        <img src="{% static ObjDTSlidebarLeft.ImageURL %}" alt="BANNER" width="100%"><br><br>
+    {% endfor %}
+    <!-- <img src="{% static 'images/Ads1.jpg'%}" alt="BANNER" width="100%"><br><br>
+    <img src="{% static 'images/Ads2.jpg'%}" alt="BANNER" width="100%"> -->
+</div>

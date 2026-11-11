@@ -1,0 +1,40 @@
+# Dependencies
+/node_modules
+/vendor
+
+# Environment
+.env
+.env.local
+.env.production
+/backend/.env
+
+# Backend moved to its own repository (backend-pi-education)
+/backend
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Build
+/dist
+/frontend/dist
+/backend/public/build
+
+# Logs
+*.log
+/npm-debug.log*
+/backend/storage/logs/*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+/backend/database/database.sqlite
+/backend/.phpunit.cache
+
+# Misc
+*.bak
+*.tmp

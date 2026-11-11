@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mybusiness-assistant-test",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "ENVIRONMENT": "test",
+    "APP_URL": "http://localhost:5173",
+    "OPENAI_MODEL": "gpt-4o-mini",
+    "OPENAI_BASE_URL": "https://api.openai.com/v1",
+    "GOOGLE_CLIENT_ID": "test-google-client-id",
+    "GOOGLE_CLIENT_SECRET": "test-google-client-secret"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "test-db",
+      "database_id": "test-db"
+    }
+  ]
+}

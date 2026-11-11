@@ -1,0 +1,34 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mybusiness-assistant",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  },
+  "triggers": {
+    "crons": ["0 3 * * *"]
+  },
+  "vars": {
+    "ENVIRONMENT": "production",
+    "APP_URL": "https://mybusiness-assistant.onpruonh123.workers.dev",
+    "OPENAI_MODEL": "gpt-4o-mini",
+    "OPENAI_BASE_URL": "https://api.openai.com/v1"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mybusiness-db",
+      "database_id": "250defe1-98ee-41bf-8e4e-7fdfb852ac73",
+      "migrations_dir": "../../packages/db/migrations"
+    }
+  ],
+  "assets": {
+    "directory": "../web/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  }
+}

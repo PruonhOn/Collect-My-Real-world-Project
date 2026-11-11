@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRUONH ON | Developer GENZ</title>
+    <meta name="description" content="Portfolio of PRUONH ON - Full Stack Developer & Three.js Specialist">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="three-canvas"></div>
+
+    <div class="cursor-follower"></div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">PRUONH ON</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <button class="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="hero-content">
+            <p class="hero-greeting">Hello, I'm</p>
+            <h1 class="hero-title">
+                <span class="title-line">PRUONH ON</span>
+                <span class="title-line accent">DEVELOPER GENZ</span>
+            </h1>
+            <p class="hero-subtitle">Full Stack Developer & Three.js Specialist</p>
+            <p class="hero-desc">Crafting immersive digital experiences with cutting-edge web technologies</p>
+            <div class="hero-actions">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn btn-secondary">Contact Me</a>
+            </div>
+            <div class="hero-scroll">
+                <span>Scroll</span>
+                <div class="scroll-arrow"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-container">
+            <h2 class="section-title reveal">About Me</h2>
+            <div class="about-grid">
+                <div class="about-text reveal">
+                    <p>I'm a passionate developer who thrives on building next-generation web experiences. With deep expertise in Three.js, WebGL, and modern JavaScript frameworks, I transform complex ideas into stunning interactive realities.</p>
+                    <p>Every project I undertake is driven by a commitment to pixel-perfect execution, performance optimization, and pushing the boundaries of what's possible in the browser.</p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-number" data-target="5">0</span>
+                            <span class="stat-label">Years Exp</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" data-target="50">0</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" data-target="30">0</span>
+                            <span class="stat-label">Happy Clients</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual reveal">
+                    <div class="about-3d-container" id="about-3d"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="section-container">
+            <h2 class="section-title reveal">Skills & Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-category reveal">
+                    <h3>Frontend</h3>
+                    <div class="skill-bar"><span>Three.js / WebGL</span><div class="bar"><div class="bar-fill" data-width="95"></div></div></div>
+                    <div class="skill-bar"><span>React / Next.js</span><div class="bar"><div class="bar-fill" data-width="90"></div></div></div>
+                    <div class="skill-bar"><span>TypeScript</span><div class="bar"><div class="bar-fill" data-width="88"></div></div></div>
+                    <div class="skill-bar"><span>CSS / Animation</span><div class="bar"><div class="bar-fill" data-width="92"></div></div></div>
+                </div>
+                <div class="skill-category reveal">
+                    <h3>Backend & Tools</h3>
+                    <div class="skill-bar"><span>Node.js</span><div class="bar"><div class="bar-fill" data-width="85"></div></div></div>
+                    <div class="skill-bar"><span>Python / Django</span><div class="bar"><div class="bar-fill" data-width="80"></div></div></div>
+                    <div class="skill-bar"><span>MongoDB / SQL</span><div class="bar"><div class="bar-fill" data-width="82"></div></div></div>
+                    <div class="skill-bar"><span>Docker / AWS</span><div class="bar"><div class="bar-fill" data-width="78"></div></div></div>
+                </div>
+                <div class="skill-category reveal">
+                    <h3>3D & Creative</h3>
+                    <div class="skill-bar"><span>Blender</span><div class="bar"><div class="bar-fill" data-width="75"></div></div></div>
+                    <div class="skill-bar"><span>GLSL Shaders</span><div class="bar"><div class="bar-fill" data-width="85"></div></div></div>
+                    <div class="skill-bar"><span>WebXR / AR</span><div class="bar"><div class="bar-fill" data-width="70"></div></div></div>
+                    <div class="skill-bar"><span>R3F (React Three)</span><div class="bar"><div class="bar-fill" data-width="90"></div></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="section-container">
+            <h2 class="section-title reveal">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card reveal">
+                    <div class="project-thumb">
+                        <div class="project-3d-preview" data-demo="https://threejs.org/examples/#webgl_geometry_minecraft"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>3D Interactive Dashboard</h3>
+                        <p>Real-time data visualization with WebGL-powered 3D charts and spatial analytics.</p>
+                        <div class="project-tags">
+                            <span>Three.js</span><span>D3.js</span><span>WebSocket</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://threejs.org/examples/#webgl_geometry_minecraft" target="_blank" class="btn-demo">Live Demo</a>
+                            <a href="#" class="btn-source">Source</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal">
+                    <div class="project-thumb">
+                        <div class="project-3d-preview" data-demo="https://threejs.org/examples/#webgl_animation_keyframes"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Virtual Reality Gallery</h3>
+                        <p>Immersive 3D art exhibition space with WebXR support and spatial audio.</p>
+                        <div class="project-tags">
+                            <span>WebXR</span><span>Three.js</span><span>Blender</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://threejs.org/examples/#webgl_animation_keyframes" target="_blank" class="btn-demo">Live Demo</a>
+                            <a href="#" class="btn-source">Source</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal">
+                    <div class="project-thumb">
+                        <div class="project-3d-preview" data-demo="https://threejs.org/examples/#webgl_geometry_dynamic"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Particle Universe</h3>
+                        <p>Interactive particle simulation with 100k+ physics-driven particles in real-time.</p>
+                        <div class="project-tags">
+                            <span>GLSL</span><span>GPU Compute</span><span>Three.js</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://threejs.org/examples/#webgl_geometry_dynamic" target="_blank" class="btn-demo">Live Demo</a>
+                            <a href="#" class="btn-source">Source</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal">
+                    <div class="project-thumb">
+                        <div class="project-3d-preview" data-demo="https://threejs.org/examples/#webgl_physics_ammo_break"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>WebGL Game Engine</h3>
+                        <p>Browser-based 3D game engine with physics, PBR rendering, and multiplayer support.</p>
+                        <div class="project-tags">
+                            <span>WebGL</span><span>Cannon.js</span><span>Socket.io</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://threejs.org/examples/#webgl_physics_ammo_break" target="_blank" class="btn-demo">Live Demo</a>
+                            <a href="#" class="btn-source">Source</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal">
+                    <div class="project-thumb">
+                        <div class="project-3d-preview" data-demo="https://threejs.org/examples/#webgl_loader_gltf"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Architectural Visualizer</h3>
+                        <p>Real-time 3D building viewer with ray-traced reflections and walkthrough mode.</p>
+                        <div class="project-tags">
+                            <span>GLTF</span><span>Three.js</span><span>Blender</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://threejs.org/examples/#webgl_loader_gltf" target="_blank" class="btn-demo">Live Demo</a>
+                            <a href="#" class="btn-source">Source</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal">
+                    <div class="project-thumb">
+                        <div class="project-3d-preview" data-demo="https://threejs.org/examples/#webgl_audio_visualizer"></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Audio Visualizer</h3>
+                        <p>Spatial audio visualization with frequency-driven 3D geometry manipulation.</p>
+                        <div class="project-tags">
+                            <span>Web Audio</span><span>Three.js</span><span>GLSL</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://threejs.org/examples/#webgl_audio_visualizer" target="_blank" class="btn-demo">Live Demo</a>
+                            <a href="#" class="btn-source">Source</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-container">
+            <h2 class="section-title reveal">Get In Touch</h2>
+            <div class="contact-grid">
+                <div class="contact-info reveal">
+                    <h3>Let's Build Something Amazing</h3>
+                    <p>Have a project in mind? I'd love to hear about it. Drop me a message and let's create something extraordinary together.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <span class="contact-icon">@</span>
+                            <span>pruonh.on@dev.genz</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">#</span>
+                            <span>@pruonh_dev</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">+</span>
+                            <span>+855 12 345 678</span>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form reveal" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Your Name" required>
+                        <label for="name">Your Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Your Email" required>
+                        <label for="email">Your Email</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+                        <label for="message">Your Message</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 PRUONH ON. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#" target="_blank">GitHub</a>
+                <a href="#" target="_blank">LinkedIn</a>
+                <a href="#" target="_blank">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+        }
+    }
+    </script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

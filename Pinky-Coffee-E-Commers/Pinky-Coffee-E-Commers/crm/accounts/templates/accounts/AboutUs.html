@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+        <script src='main.js'></script>
+        {% include 'accounts/Head.html' %}
+    </head>
+<body>
+    <div class="container">
+        {% include 'accounts/Banner.html' %}
+        {% include 'accounts/Menu.html' %}
+        {% include 'accounts/SlideShow.html' %}
+        <div class="row">
+            <!-- Side Bar Left -->
+            {% include 'accounts/SideBarLeft.html' %}
+            <!-- End Side Bar Left -->
+            <div class="col-lg-8 ">
+                <h1>About Us Page</h1>
+                {{ ObjDTUseExists }}
+                <hr>
+                <p>Total Image Count: {{ ObjDTUseCount }}
+                <hr>
+                {{ ObjDTUseLast.id }} - {{ ObjDTUseLast.ImageName }}
+                <hr>
+                {{ ObjDTUseFirst.id }} - {{ ObjDTUseFirst.ImageName }}</p>
+                <hr>
+                {% for ObjDTExclude in ObjDTExclude %}
+                    <p>{{ ObjDTExclude.id }} - {{ ObjDTExclude.ImageName }}</p>
+                {% endfor %}
+                <hr>
+                {% for ObjDTUseOrderBy in ObjDTUseOrderBy %}
+                    <p>{{ ObjDTUseOrderBy.id }} - {{ ObjDTUseOrderBy.ImageName }}</p>
+                {% endfor %}
+            </div>
+            <!-- Side Bar Right -->
+            {% include 'accounts/SideBarRight.html' %}
+            <!-- End Side Bar Right -->
+        </div>
+        <!-- Footer -->
+        {% include 'accounts/Footer.html' %}
+        <!-- End Footer -->
+        
+    </div>
+</body>
+</html>

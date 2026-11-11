@@ -1,0 +1,32 @@
+<?php
+
+use App\Http\Controllers\Api\Admin\AdminAuthorController;
+use App\Http\Controllers\Api\Admin\AdminBookTocController;
+use App\Http\Controllers\Api\Admin\AdminBroadcastMessageController;
+use App\Http\Controllers\Api\Admin\AdminController;
+use App\Http\Controllers\Api\Admin\AdminEventController;
+use App\Http\Controllers\Api\Admin\AdminOrganizationController;
+use App\Http\Controllers\Api\AdminBookReviewController;
+use App\Http\Controllers\Api\AiAssistantController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Author\AuthorAuthController;
+use App\Http\Controllers\Api\Author\AuthorBookController;
+use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\BroadcastMessageController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\Api\EmailVerificationController;
+use App\Http\Controllers\Api\EventsController;
+use App\Http\Controllers\Api\LibraryController;
+use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\OrganizationController;
+use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\PaymentWebhookController;
+use App\Http\Controllers\Api\QuizController;
+use App\Http\Controllers\Api\ReaderController;
+use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\SharingController;
+use App\Http\Controllers\Api\StorageController;
+use App\Http\Controllers\Api\VipPlanController;
+use Illuminate\Support\Facades\Route;

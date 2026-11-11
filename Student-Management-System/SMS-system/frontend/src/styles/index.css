@@ -1,0 +1,14 @@
+/* Owner: Roth Sothunuspea - global styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global styles */
+body {
+  margin: 0;
+  font-family: -apple-system, system-ui, sans-serif;
+}
+
+#root {
+  height: 100vh;
+}

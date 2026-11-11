@@ -1,0 +1,13 @@
+ENVIRONMENT=development
+APP_URL=http://127.0.0.1:5173
+
+RESEND_API_KEY=
+RESEND_FROM_EMAIL=no-reply@yourdomain.com
+RESEND_FROM_NAME=MyBusiness Assistant
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_BASE_URL=https://api.openai.com/v1

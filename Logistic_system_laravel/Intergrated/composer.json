@@ -1,0 +1,9 @@
+{
+    "require": {
+        "barryvdh/laravel-dompdf": "^3.1",
+        "maatwebsite/excel": "^3.1",
+        "spatie/laravel-activitylog": "^4.12",
+        "laravel/sanctum": "^4.3",
+        "twilio/sdk": "^8.11"
+    }
+}

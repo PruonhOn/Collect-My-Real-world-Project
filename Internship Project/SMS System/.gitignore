@@ -1,0 +1,36 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Tests
+coverage/
+.phpunit.result.cache
+
+# Frontends
+node_modules/
+dist/
+build/
+.expo/
+*.tsbuildinfo
+
+# Backend (Laravel)
+/backend/vendor/
+/backend/node_modules/
+/backend/.env
+/backend/.env.*.local
+/backend/composer.lock
+/backend/public/build/
+/backend/public/hot
+/backend/storage/*.key
+/backend/storage/app/*
+!/backend/storage/app/.gitignore
+/backend/storage/logs/*.log
+/backend/storage/framework/cache/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+/backend/storage/framework/testing/*

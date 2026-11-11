@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}Stock — K&N Store{% endblock %}
+{% block page_title %}Stock Management{% endblock %}
+{% block breadcrumb %}K&N Store / Stock{% endblock %}
+{% block content %}
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+  <form method="GET" style="display:flex;gap:10px;flex:1;max-width:500px">
+    <input name="q" value="{{ q }}" placeholder="🔍 Search stock...">
+    <select name="category" style="width:160px">
+      <option value="">All Categories</option>
+      {% for c in categories %}<option value="{{ c.id }}" {{ 'selected' if cat_id|string == c.id|string }}>{{ c.icon }} {{ c.name }}</option>{% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <input type="hidden" name="view" value="{{ view }}">
+  </form>
+  <div style="display:flex;gap:8px">
+    <a href="?view=row&q={{ q }}&category={{ cat_id }}" class="btn btn-sm {{ 'btn-primary' if view == 'row' else 'btn-ghost' }}">☰ Row View</a>
+    <a href="?view=catalog&q={{ q }}&category={{ cat_id }}" class="btn btn-sm {{ 'btn-primary' if view == 'catalog' else 'btn-ghost' }}">⊞ Catalog</a>
+  </div>
+</div>
+
+{% if view == 'catalog' %}
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:28px">
+{% for p in products %}
+<div class="card" style="padding:16px;text-align:center;cursor:pointer" onclick="openAdjust({{ p.id }},'{{ p.name|replace("'","\\'")|replace('"','\\"') }}',{{ p.quantity }})">
+  <div style="font-size:32px;margin-bottom:8px">{{ p.category.icon if p.category else '📦' }}</div>
+  <div style="font-size:13px;font-weight:700;margin-bottom:4px">{{ p.name[:24] }}</div>
+  <div style="font-size:11px;color:var(--text2);margin-bottom:12px">{{ p.sku }}</div>
+  <div style="font-size:28px;font-weight:800;font-family:'Syne',sans-serif;margin-bottom:4px;color:{{ '#10b981' if p.quantity > p.min_stock else ('#f59e0b' if p.quantity > 0 else '#ef4444') }}">{{ p.quantity }}</div>
+  <div style="font-size:11px;color:var(--text2)">units in stock</div>
+  <div style="margin-top:10px">
+    {% if p.quantity == 0 %}<span class="badge badge-danger">Out of Stock</span>
+    {% elif p.quantity <= p.min_stock %}<span class="badge badge-warn">Low Stock</span>
+    {% else %}<span class="badge badge-success">In Stock</span>{% endif %}
+  </div>
+</div>
+{% endfor %}
+</div>
+{% else %}
+<div class="card" style="margin-bottom:28px">
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Product</th><th>SKU</th><th>Category</th><th>Current Stock</th><th>Min Stock</th><th>Status</th><th>Unit Price</th><th>Actions</th></tr></thead>
+      <tbody>
+      {% for p in products %}
+      <tr>
+        <td style="font-weight:600">{{ p.name }}</td>
+        <td style="font-size:12px;color:var(--text2);font-family:monospace">{{ p.sku }}</td>
+        <td>{% if p.category %}<span style="background:{{ p.category.color }}20;color:{{ p.category.color }};padding:3px 8px;border-radius:6px;font-size:12px;font-weight:600">{{ p.category.icon }} {{ p.category.name }}</span>{% else %}<span class="badge badge-info">Uncategorized</span>{% endif %}</td>
+        <td><span style="font-size:18px;font-weight:700;font-family:'Syne',sans-serif;color:{{ '#10b981' if p.quantity > p.min_stock else ('#f59e0b' if p.quantity > 0 else '#ef4444') }}">{{ p.quantity }}</span></td>
+        <td style="color:var(--text2)">{{ p.min_stock }}</td>
+        <td>
+          {% if p.quantity == 0 %}<span class="badge badge-danger">Out of Stock</span>
+          {% elif p.quantity <= p.min_stock %}<span class="badge badge-warn">Low Stock</span>
+          {% else %}<span class="badge badge-success">In Stock</span>{% endif %}
+        </td>
+        <td style="color:var(--accent);font-weight:700">${{ "%.2f"|format(p.price) }}</td>
+        <td><button class="btn btn-outline btn-sm" onclick="openAdjust({{ p.id }},'{{ p.name|replace("'","\\'")|replace('"','\\"') }}',{{ p.quantity }})">Adjust Stock</button></td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<div class="card">
+  <div class="section-header"><h2>📋 Recent Stock Movements</h2></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Product</th><th>Type</th><th>Quantity</th><th>Reason</th><th>Date</th></tr></thead>
+      <tbody>
+      {% for m in movements %}
+      <tr>
+        <td style="font-weight:600">{{ m.product.name[:30] }}</td>
+        <td>
+          {% if m.movement_type == 'in' %}<span class="badge badge-success">↑ Stock In</span>
+          {% elif m.movement_type == 'out' %}<span class="badge badge-danger">↓ Stock Out</span>
+          {% else %}<span class="badge badge-info">⟳ Adjustment</span>{% endif %}
+        </td>
+        <td style="font-weight:700">{{ m.quantity }}</td>
+        <td style="color:var(--text2)">{{ m.reason }}</td>
+        <td style="color:var(--text2);font-size:12px">{{ m.created_at.strftime('%b %d, %Y %H:%M') }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Adjust Modal -->
+<div class="modal-overlay" id="adjustModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🏭 Adjust Stock</h3>
+      <button class="modal-close" onclick="closeModal('adjustModal')">×</button>
+    </div>
+    <div style="padding:14px;background:var(--bg3);border-radius:10px;margin-bottom:20px">
+      <div style="font-size:12px;color:var(--text2)">Product</div>
+      <div id="adjProductName" style="font-weight:700;font-size:15px;margin-top:2px"></div>
+      <div style="margin-top:8px;font-size:13px">Current Stock: <strong id="adjCurrentStock" style="color:var(--accent)"></strong></div>
+    </div>
+    <form method="POST" id="adjForm">
+      <div class="form-group"><label>Adjustment Type</label>
+        <select name="type">
+          <option value="in">↑ Add Stock (Stock In)</option>
+          <option value="out">↓ Remove Stock (Stock Out)</option>
+          <option value="adjustment">⟳ Set Exact Quantity</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Quantity</label>
+        <input name="quantity" type="number" min="1" value="1" required>
+      </div>
+      <div class="form-group"><label>Reason</label>
+        <select name="reason">
+          <option>Manual adjustment</option>
+          <option>New purchase order</option>
+          <option>Damaged goods</option>
+          <option>Customer return</option>
+          <option>Inventory count correction</option>
+          <option>Transfer</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">✅ Apply Adjustment</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+function openAdjust(id, name, qty) {
+  document.getElementById('adjProductName').textContent = name;
+  document.getElementById('adjCurrentStock').textContent = qty + ' units';
+  document.getElementById('adjForm').action = '/stock/adjust/' + id;
+  openModal('adjustModal');
+}
+</script>
+{% endblock %}
